@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About — Robotify</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.page-hero{min-height:36vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:110px 52px 56px;text-align:center;position:relative;z-index:1;background:radial-gradient(ellipse 60% 55% at 50% 100%,rgba(0,212,255,0.05) 0%,transparent 65%);}
+.page-hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:12px;}
+.page-hero p{font-size:16px;color:var(--muted);max-width:520px;}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.about-img-block{position:relative;display:flex;align-items:center;justify-content:center;}
+.about-visual{width:100%;max-width:400px;aspect-ratio:1;background:var(--card);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.about-visual img{height:200px;filter:drop-shadow(0 0 24px rgba(0,212,255,0.35));}
+.about-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(0,212,255,0.1);animation:spin linear infinite;}
+.about-ring:nth-child(1){width:88%;padding-bottom:88%;margin-left:-44%;margin-top:-44%;animation-duration:18s;}
+.about-ring:nth-child(2){width:70%;padding-bottom:70%;margin-left:-35%;margin-top:-35%;animation-duration:12s;animation-direction:reverse;border-style:dashed;}
+.values-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px;}
+.val-item{padding:20px;background:var(--card);border:1px solid var(--border2);transition:border-color .3s;}
+.val-item:hover{border-color:rgba(0,212,255,0.25);}
+.val-icon{font-size:22px;margin-bottom:8px;}
+.val-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:.04em;margin-bottom:5px;}
+.val-desc{font-size:13px;color:var(--muted);line-height:1.65;}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.team-card{background:var(--card);border:1px solid var(--border2);padding:28px;text-align:center;transition:all .3s;}
+.team-card:hover{border-color:rgba(0,212,255,0.25);transform:translateY(-4px);}
+.team-avatar{width:72px;height:72px;border-radius:50%;background:rgba(0,212,255,0.06);border:2px solid rgba(0,212,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;}
+.team-name{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:.04em;margin-bottom:4px;}
+.team-role{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;}
+.team-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+@media(max-width:900px){.about-layout{grid-template-columns:1fr;gap:40px;}.team-grid{grid-template-columns:1fr 1fr;}.values-grid{grid-template-columns:1fr;}.page-hero{padding:100px 20px 48px;}}
+@media(max-width:540px){.team-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cur-r"></div><canvas id="cvs"></canvas>
+<nav>
+  <a class="nav-logo" href="index.html"><img src="Robotify.png" alt="Robotify"/><span class="nav-wordmark">ROBOTIFY</span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li>
+    <li><a href="projects.html">Projects</a></li><li><a href="about.html" class="active">About</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">Get a Quote</a>
+  <button class="nav-mobile-btn" onclick="document.getElementById('nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+<div class="page-hero">
+  <div class="sec-eye" style="justify-content:center">Who We Are</div>
+  <h1>About <span style="color:var(--cyan)">Robotify</span></h1>
+  <p>A passionate team of engineers, makers, and educators based in Karachi — building the future one circuit at a time.</p>
+</div>
+<div class="divider"></div>
+<section class="page-section">
+  <div class="about-layout">
+    <div class="reveal">
+      <div class="sec-eye">Our Story</div>
+      <h2 class="sec-title">Built by <span>Engineers</span><br/>for Engineers</h2>
+      <p style="font-size:15px;color:rgba(237,245,250,.7);line-height:1.9;margin-bottom:20px;">Robotify was founded with a simple mission: make cutting-edge engineering services accessible to students, startups, and businesses in Pakistan. We noticed that too many students were struggling with their final year projects, and too many businesses couldn't find affordable local expertise in robotics and IoT.</p>
+      <p style="font-size:15px;color:rgba(237,245,250,.7);line-height:1.9;margin-bottom:28px;">We bridged that gap. From Arduino prototypes to complete solar installations — Robotify delivers precision engineering with a personal touch, right here in Karachi.</p>
+      <div class="values-grid">
+        <div class="val-item"><div class="val-icon">⚡</div><div class="val-title">Innovation First</div><div class="val-desc">We push the boundaries of what's possible with every project we take on.</div></div>
+        <div class="val-item"><div class="val-icon">🎯</div><div class="val-title">Precision Delivery</div><div class="val-desc">On time, on spec, every time — we don't ship until it's right.</div></div>
+        <div class="val-item"><div class="val-icon">🤝</div><div class="val-title">Client Partnership</div><div class="val-desc">We work with you, not just for you — your success is our success.</div></div>
+        <div class="val-item"><div class="val-icon">📚</div><div class="val-title">Knowledge Sharing</div><div class="val-desc">We teach as we build — empowering clients to understand their own systems.</div></div>
+      </div>
+    </div>
+    <div class="about-img-block reveal">
+      <div class="about-visual">
+        <div class="about-ring"></div>
+        <div class="about-ring"></div>
+        <img src="Robotify.png" alt="Robotify"/>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+<section class="page-section dark">
+  <div style="text-align:center;margin-bottom:48px">
+    <div class="sec-eye" style="justify-content:center">The Team</div>
+    <h2 class="sec-title" style="text-align:center">Meet Our <span>Engineers</span></h2>
+  </div>
+  <div class="team-grid">
+    <div class="team-card reveal"><div class="team-avatar">👨‍💻</div><div class="team-name">Lead Engineer</div><div class="team-role">Robotics & AI</div><div class="team-desc">Specializes in robotic arm design, ROS integration, and computer vision pipelines.</div></div>
+    <div class="team-card reveal"><div class="team-avatar">⚡</div><div class="team-name">Electronics Engineer</div><div class="team-role">IoT & Embedded</div><div class="team-desc">Expert in Arduino, ESP32, PCB design, and industrial automation systems.</div></div>
+    <div class="team-card reveal"><div class="team-avatar">☀️</div><div class="team-name">Solar Engineer</div><div class="team-role">Renewable Energy</div><div class="team-desc">Certified solar system designer with 30+ installations across residential and commercial sectors.</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+<section class="page-section darker" style="padding-top:60px;padding-bottom:60px;">
+  <div class="cta-strip reveal">
+    <div class="cta-strip-text"><h3>Ready to Work with Us?</h3><p>Contact us today and let's discuss your project.</p></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="contact.html" class="btn-primary">Get in Touch →</a><a href="tel:+923337085256" class="btn-secondary">📞 +92 333 708 5256</a></div>
+  </div>
+</section>
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><img src="Robotify.png" alt="Robotify"/><p>Full-spectrum engineering services across robotics, IoT, solar energy, digital design and academic project support.</p><div class="footer-tagline">Innovation · Application · Solution</div></div>
+    <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="services.html#robotics">AI Robotics</a></li><li><a href="services.html#iot">IoT Systems</a></li><li><a href="services.html#solar">Solar Energy</a></li><li><a href="services.html#fyp">Final Year Projects</a></li></ul></div>
+    <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a href="tel:+923337085256">+92 333 708 5256</a></li><li><a href="mailto:info@robotify.pk">info@robotify.pk</a></li><li><a href="#">Karachi, Pakistan</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 ROBOTIFY — ALL RIGHTS RESERVED</div><div class="footer-copy">INNOVATION · APPLICATION · SOLUTION</div></div>
+</footer>
+<script src="shared.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>

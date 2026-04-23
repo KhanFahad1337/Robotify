@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projects — Robotify</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.page-hero{min-height:36vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:110px 52px 56px;text-align:center;position:relative;z-index:1;background:radial-gradient(ellipse 60% 55% at 50% 100%,rgba(0,212,255,0.05) 0%,transparent 65%);}
+.page-hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:12px;}
+.page-hero p{font-size:16px;color:var(--muted);max-width:520px;}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
+.filter-btn{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,0.04);}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.proj-card{background:var(--card);border:1px solid var(--border2);overflow:hidden;transition:all .35s;position:relative;}
+.proj-card:hover{transform:translateY(-8px);border-color:rgba(0,212,255,0.35);box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+.proj-card[data-cat="Solar"]:hover{border-color:rgba(251,191,36,0.35);}
+.proj-card[data-cat="DLD"]:hover{border-color:rgba(167,139,250,0.35);}
+.proj-card[data-cat="Electronics"]:hover{border-color:rgba(57,255,20,0.35);}
+.proj-anim{height:190px;display:flex;align-items:center;justify-content:center;background:#020c14;border-bottom:1px solid var(--border2);overflow:hidden;position:relative;}
+.proj-body{padding:22px;}
+.proj-cat{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px;}
+.proj-name{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:.03em;margin-bottom:8px;line-height:1.3;color:var(--white);}
+.proj-desc{font-size:13.5px;color:var(--muted);line-height:1.72;}
+.proj-card.hidden{display:none;}
+@keyframes led-blink{0%,100%{opacity:1;}50%{opacity:.05;}}
+@keyframes led-slow{0%,100%{opacity:1;}50%{opacity:.15;}}
+@keyframes pulse-glow{0%,100%{opacity:.5;}50%{opacity:1;}}
+@keyframes spin-cw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes spin-ccw{from{transform:rotate(0deg);}to{transform:rotate(-360deg);}}
+@keyframes dash-march{to{stroke-dashoffset:-20;}}
+@keyframes float-y{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes flicker{0%,96%,100%{opacity:1;}97%{opacity:.1;}}
+.se-needle{transform-origin:130px 130px;animation:needle-sweep 3s ease-in-out infinite;}
+@keyframes needle-sweep{0%,100%{transform:rotate(-90deg);}50%{transform:rotate(40deg);}}
+.se-ring{animation:spin-cw 6s linear infinite;}
+.se-val{animation:flicker 5s ease-in-out infinite;}
+.bms-line{animation:bms-pulse 1.5s ease-in-out infinite;}
+@keyframes bms-pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+.ha-bulb{animation:ha-glow 2s ease-in-out infinite;}
+@keyframes ha-glow{0%,100%{fill:#fbbf24;opacity:.5;}50%{fill:#fde68a;opacity:1;}}
+.ha-wifi{animation:ha-wifi-p 1s ease-in-out infinite;}
+@keyframes ha-wifi-p{0%,100%{opacity:.2;}50%{opacity:.9;}}
+.oeem-wave polyline{animation:oeem-wave 2s linear infinite;}
+@keyframes oeem-wave{from{stroke-dashoffset:0;}to{stroke-dashoffset:-80;}}
+.scr-bot{animation:float-y 3s ease-in-out infinite;}
+.scr-brush{animation:spin-cw 1s linear infinite;}
+.scr-water{animation:scr-drop 1.5s ease-in-out infinite;}
+@keyframes scr-drop{0%{transform:translateY(0);opacity:1;}100%{transform:translateY(20px);opacity:0;}}
+.scr-sun{animation:pulse-glow 2s ease-in-out infinite;}
+.wp-motor{animation:spin-cw 1.5s linear infinite;}
+.arm-upper{transform-origin:100px 120px;animation:arm-up 3s ease-in-out infinite;}
+@keyframes arm-up{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-20deg);}}
+.arm-lower{transform-origin:100px 80px;animation:arm-lo 3s 1.5s ease-in-out infinite;}
+@keyframes arm-lo{0%,100%{transform:rotate(0deg);}50%{transform:rotate(15deg);}}
+.arm-claw-t{transform-origin:170px 70px;animation:claw-t 3s ease-in-out infinite;}
+.arm-claw-b{transform-origin:170px 90px;animation:claw-b 3s ease-in-out infinite;}
+@keyframes claw-t{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-15deg);}}
+@keyframes claw-b{0%,100%{transform:rotate(0deg);}50%{transform:rotate(15deg);}}
+.rfid-card{animation:rfid-swipe 3s ease-in-out infinite;}
+@keyframes rfid-swipe{0%,100%{transform:translateX(0);}50%{transform:translateX(60px);}}
+.rfid-wave{animation:rfid-wave-p 1s ease-in-out infinite;}
+.rfid-wave2{animation:rfid-wave-p 1s .3s ease-in-out infinite;}
+.rfid-wave3{animation:rfid-wave-p 1s .6s ease-in-out infinite;}
+@keyframes rfid-wave-p{0%,100%{opacity:.1;r:8;}50%{opacity:.8;r:20;}}
+.rfid-lock{animation:rfid-lock-open 3s ease-in-out infinite;}
+@keyframes rfid-lock-open{0%,40%,100%{transform:translateY(0);}55%,85%{transform:translateY(-12px);}}
+.rc-wheel{animation:spin-cw 1s linear infinite;transform-origin:center;}
+.rc-body{animation:rc-drive 2s ease-in-out infinite;}
+@keyframes rc-drive{0%,100%{transform:translateX(0);}50%{transform:translateX(12px);}}
+.rc-signal{animation:rc-sig 1s ease-in-out infinite;}
+@keyframes rc-sig{0%,100%{opacity:.2;}50%{opacity:1;}}
+.rc-ant{animation:led-blink 1.1s step-end infinite;}
+.lf-bot{animation:lf-follow 4s ease-in-out infinite;}
+@keyframes lf-follow{0%{transform:translate(0,0);}25%{transform:translate(20px,-5px);}50%{transform:translate(40px,0);}75%{transform:translate(20px,5px);}100%{transform:translate(0,0);}}
+.lf-sensor{animation:pulse-glow .5s ease-in-out infinite;}
+.lf-sensor2{animation:pulse-glow .5s .25s ease-in-out infinite;}
+.elec-led1{animation:led-blink .4s step-end infinite;}
+.elec-led2{animation:led-blink .4s .2s step-end infinite;}
+.elec-led3{animation:led-slow 1s step-end infinite;}
+.dld-sig1{animation:dld-s1 2s ease-in-out infinite;}
+.dld-sig2{animation:dld-s2 2s .5s ease-in-out infinite;}
+.dld-out{animation:dld-out 2s .8s ease-in-out infinite;}
+@keyframes dld-s1{0%,100%{fill:#00d4ff;opacity:.3;}30%,60%{fill:#00d4ff;opacity:1;}}
+@keyframes dld-s2{0%,100%{fill:#39ff14;opacity:.3;}40%,70%{fill:#39ff14;opacity:1;}}
+@keyframes dld-out{0%,100%{fill:#a78bfa;opacity:.2;}50%{fill:#a78bfa;opacity:1;}}
+.dld-clock{animation:dash-march .5s linear infinite;}
+.mask-scan{animation:mask-sc 2s ease-in-out infinite;}
+@keyframes mask-sc{0%,100%{transform:translateY(0);}50%{transform:translateY(60px);}}
+.mask-ok{animation:mask-ok-p 3s ease-in-out infinite;}
+@keyframes mask-ok-p{0%,60%,100%{opacity:0;}70%,90%{opacity:1;}}
+.mask-eye{animation:pulse-glow 1.5s ease-in-out infinite;}
+.fire-flame{animation:fire-fl .4s ease-in-out infinite alternate;}
+@keyframes fire-fl{from{transform:scaleY(1) rotate(-5deg);}to{transform:scaleY(1.2) rotate(5deg);}}
+.fire-alarm-ring{animation:fire-ring .6s ease-in-out infinite;}
+@keyframes fire-ring{0%,100%{r:20;opacity:.8;}50%{r:30;opacity:.2;}}
+.fire-led{animation:led-blink .3s step-end infinite;}
+.va-car{animation:va-drive 3s ease-in-out infinite;}
+@keyframes va-drive{0%,100%{transform:translateX(0);}50%{transform:translateX(30px);}}
+.va-trunk{transform-origin:220px 80px;animation:va-trunk-open 3s ease-in-out infinite;}
+@keyframes va-trunk-open{0%,40%,100%{transform:rotate(0deg);}55%,85%{transform:rotate(-40deg);}}
+.va-alert{animation:va-alert-p .5s ease-in-out infinite;}
+@keyframes va-alert-p{0%,100%{opacity:1;}50%{opacity:.1;}}
+.kit-pulse1{animation:pulse-glow 1s ease-in-out infinite;}
+.kit-pulse2{animation:pulse-glow 1s .33s ease-in-out infinite;}
+.kit-pulse3{animation:pulse-glow 1s .66s ease-in-out infinite;}
+.kit-led-a{animation:led-blink .5s step-end infinite;}
+.kit-led-b{animation:led-blink .5s .25s step-end infinite;}
+.kit-led-c{animation:led-slow 1.2s step-end infinite;}
+@media(max-width:960px){.proj-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:540px){.proj-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cur-r"></div><canvas id="cvs"></canvas>
+<nav>
+  <a class="nav-logo" href="index.html"><img src="Robotify.png" alt="Robotify"/><span class="nav-wordmark">ROBOTIFY</span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li>
+    <li><a href="projects.html" class="active">Projects</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">Get a Quote</a>
+  <button class="nav-mobile-btn" onclick="document.getElementById('nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+<div class="page-hero">
+  <div class="sec-eye" style="justify-content:center">What We've Built</div>
+  <h1>Our <span style="color:var(--cyan)">Projects</span></h1>
+  <p>Real projects delivered for students, businesses, and institutions across Pakistan — from microcontrollers to megawatts.</p>
+</div>
+<div class="divider"></div>
+<section class="page-section">
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="IoT">IoT</button>
+    <button class="filter-btn" data-filter="Robotics">Robotics</button>
+    <button class="filter-btn" data-filter="Solar">Solar</button>
+    <button class="filter-btn" data-filter="FYP">FYP</button>
+    <button class="filter-btn" data-filter="DLD">DLD</button>
+    <button class="filter-btn" data-filter="Electronics">Electronics</button>
+  </div>
+  <div class="proj-grid" id="proj-grid">
+
+    <!-- 1 Smart Energy -->
+    <div class="proj-card reveal" data-cat="IoT">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g1"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <circle cx="130" cy="110" r="80" fill="none" stroke="#0a2030" stroke-width="16" stroke-dasharray="251" stroke-dashoffset="63"/>
+          <circle cx="130" cy="110" r="80" fill="none" stroke="#00d4ff" stroke-width="16" stroke-dasharray="251" stroke-dashoffset="130" stroke-linecap="round" filter="url(#g1)" class="se-ring" opacity=".8"/>
+          <g class="se-needle"><line x1="130" y1="112" x2="130" y2="50" stroke="#ff6b35" stroke-width="2.5" stroke-linecap="round" filter="url(#g1)"/><circle cx="130" cy="112" r="7" fill="#ff6b35" filter="url(#g1)"/><circle cx="130" cy="112" r="3" fill="#fff"/></g>
+          <text x="60" y="128" font-family="'Rajdhani',sans-serif" font-size="9" fill="#3a6070">0</text>
+          <text x="190" y="128" font-family="'Rajdhani',sans-serif" font-size="9" fill="#3a6070">MAX</text>
+          <text x="130" y="142" text-anchor="middle" font-family="'Orbitron',monospace" font-size="18" fill="#00d4ff" class="se-val" font-weight="700">4.2 kW</text>
+          <text x="130" y="158" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="9" fill="#3a6070">LIVE CONSUMPTION</text>
+          <rect x="12" y="20" width="8" height="30" rx="2" fill="#00d4ff" opacity=".4"/><rect x="22" y="12" width="8" height="38" rx="2" fill="#00d4ff" opacity=".6"/><rect x="32" y="18" width="8" height="32" rx="2" fill="#ff6b35" opacity=".5"/>
+          <circle cx="240" cy="20" r="5" fill="#39ff14" filter="url(#g1)"><animate attributeName="opacity" values="1;.2;1" dur="1s" repeatCount="indefinite"/></circle>
+          <text x="232" y="36" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">LIVE</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">IoT</div><div class="proj-name">Smart Energy Management System</div><div class="proj-desc">Real-time power monitoring with PZEM-004T, live dashboard, consumption analytics, and WhatsApp alerts for abnormal usage.</div></div>
+    </div>
+
+    <!-- 2 BMS -->
+    <div class="proj-card reveal" data-cat="IoT">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="80" y="28" width="100" height="112" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+          <line x1="80" y1="62" x2="180" y2="62" stroke="#0a2030" stroke-width="1"/><line x1="80" y1="96" x2="180" y2="96" stroke="#0a2030" stroke-width="1"/>
+          <rect x="88" y="36" width="14" height="10" rx="1" fill="#fbbf24" class="bms-line" opacity=".7"/>
+          <rect x="108" y="36" width="14" height="10" rx="1" fill="#00d4ff" class="bms-line" style="animation-delay:.4s" opacity=".6"/>
+          <rect x="128" y="36" width="14" height="10" rx="1" fill="#fbbf24" class="bms-line" style="animation-delay:.8s" opacity=".7"/>
+          <rect x="148" y="36" width="14" height="10" rx="1" fill="#00d4ff" class="bms-line" style="animation-delay:1.2s" opacity=".5"/>
+          <rect x="88" y="70" width="14" height="10" rx="1" fill="#00d4ff" class="bms-line" style="animation-delay:.2s" opacity=".6"/>
+          <rect x="108" y="70" width="14" height="10" rx="1" fill="#39ff14" class="bms-line" style="animation-delay:.6s" opacity=".5"/>
+          <rect x="128" y="70" width="14" height="10" rx="1" fill="#fbbf24" class="bms-line" style="animation-delay:1s" opacity=".7"/>
+          <rect x="148" y="70" width="14" height="10" rx="1" fill="#00d4ff" class="bms-line" style="animation-delay:1.4s" opacity=".6"/>
+          <rect x="88" y="104" width="14" height="10" rx="1" fill="#fbbf24" class="bms-line" style="animation-delay:.3s" opacity=".6"/>
+          <rect x="108" y="104" width="14" height="10" rx="1" fill="#00d4ff" class="bms-line" style="animation-delay:.7s" opacity=".5"/>
+          <rect x="120" y="118" width="20" height="22" rx="1" fill="#0a1e2e" stroke="#0d2535" stroke-width="1"/>
+          <rect x="188" y="28" width="60" height="112" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="218" y="46" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">BMS STATUS</text>
+          <text x="218" y="62" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#00d4ff">HVAC ✓</text>
+          <text x="218" y="77" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#39ff14">POWER ✓</text>
+          <text x="218" y="92" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#fbbf24">LIFT ✓</text>
+          <text x="218" y="107" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#00d4ff">CCTV ✓</text>
+          <text x="218" y="122" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#39ff14">FIRE ✓</text>
+          <circle cx="245" cy="42" r="3" fill="#39ff14" filter="url(#g2)"><animate attributeName="opacity" values="1;.2;1" dur=".8s" repeatCount="indefinite"/></circle>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">IoT</div><div class="proj-name">Building Management System</div><div class="proj-desc">Centralised control of HVAC, lighting, power, lifts, fire alarms and CCTV for commercial buildings via ESP32 and web dashboard.</div></div>
+    </div>
+
+    <!-- 3 Home Automation -->
+    <div class="proj-card reveal" data-cat="IoT">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g3"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <polygon points="130,18 50,75 50,155 210,155 210,75" fill="#030f1a" stroke="#0d2535" stroke-width="1.5"/>
+          <polygon points="130,14 42,76 218,76" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <rect x="160" y="28" width="10" height="22" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <rect x="104" y="115" width="28" height="40" rx="1" fill="#061828" stroke="#0d2535" stroke-width="1"/>
+          <circle cx="129" cy="137" r="3" fill="#00d4ff" filter="url(#g3)"/>
+          <rect x="58" y="90" width="36" height="28" rx="2" fill="#020a12" stroke="#0d2535" stroke-width="1"/>
+          <circle class="ha-bulb" cx="76" cy="104" r="8" fill="#fbbf24" filter="url(#g3)" opacity=".7"/>
+          <rect x="166" y="90" width="36" height="28" rx="2" fill="#020a12" stroke="#0d2535" stroke-width="1"/>
+          <circle class="ha-bulb" cx="184" cy="104" r="8" fill="#fbbf24" filter="url(#g3)" opacity=".5" style="animation-delay:.5s"/>
+          <circle class="ha-wifi" cx="130" cy="50" r="4" fill="#00d4ff" filter="url(#g3)"/>
+          <path class="ha-wifi" d="M 118 44 Q 130 34 142 44" fill="none" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round" style="animation-delay:.2s"/>
+          <path class="ha-wifi" d="M 110 37 Q 130 24 150 37" fill="none" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round" opacity=".5" style="animation-delay:.4s"/>
+          <rect x="218" y="60" width="28" height="48" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <rect x="222" y="66" width="20" height="32" rx="1" fill="#020c14"/>
+          <text x="232" y="78" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="6" fill="#00d4ff">APP</text>
+          <circle cx="232" cy="100" r="4" fill="#39ff14" filter="url(#g3)"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">IoT</div><div class="proj-name">Home Automation</div><div class="proj-desc">ESP32-based full home automation — lights, fans, appliances, door lock and camera via mobile app with Google Home integration.</div></div>
+    </div>
+
+    <!-- 4 OEEM -->
+    <div class="proj-card reveal" data-cat="IoT">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g4"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="20" y="50" width="80" height="90" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+          <g style="transform-origin:60px 95px;animation:spin-cw 3s linear infinite">
+            <circle cx="60" cy="95" r="22" fill="none" stroke="#0d2535" stroke-width="3"/>
+            <circle cx="60" cy="95" r="15" fill="#061828" stroke="#0a2535" stroke-width="2"/>
+            <circle cx="60" cy="95" r="5" fill="#00d4ff" filter="url(#g4)"/>
+            <rect x="56" y="68" width="8" height="10" rx="2" fill="#0d2535"/>
+            <rect x="56" y="112" width="8" height="10" rx="2" fill="#0d2535"/>
+            <rect x="33" y="91" width="10" height="8" rx="2" fill="#0d2535"/>
+            <rect x="77" y="91" width="10" height="8" rx="2" fill="#0d2535"/>
+          </g>
+          <rect x="26" y="56" width="12" height="4" rx="2" fill="#39ff14" opacity=".8"><animate attributeName="opacity" values=".8;.2;.8" dur="1s" repeatCount="indefinite"/></rect>
+          <rect x="26" y="63" width="12" height="4" rx="2" fill="#fbbf24" opacity=".6"><animate attributeName="opacity" values=".6;1;.6" dur="1.5s" repeatCount="indefinite"/></rect>
+          <rect x="110" y="28" width="140" height="112" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="180" y="46" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#3a6070">MACHINE PERFORMANCE</text>
+          <text x="120" y="64" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">OEE</text>
+          <rect x="115" y="67" width="60" height="8" rx="2" fill="#0a2030"/><rect x="115" y="67" width="52" height="8" rx="2" fill="#39ff14" opacity=".8"/>
+          <text x="182" y="75" font-family="'Rajdhani',sans-serif" font-size="8" fill="#39ff14">87%</text>
+          <text x="120" y="90" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">AVL</text>
+          <rect x="115" y="93" width="60" height="8" rx="2" fill="#0a2030"/><rect x="115" y="93" width="54" height="8" rx="2" fill="#00d4ff" opacity=".8"/>
+          <text x="182" y="101" font-family="'Rajdhani',sans-serif" font-size="8" fill="#00d4ff">90%</text>
+          <text x="120" y="115" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">PERF</text>
+          <rect x="115" y="118" width="60" height="8" rx="2" fill="#0a2030"/><rect x="115" y="118" width="46" height="8" rx="2" fill="#fbbf24" opacity=".8"/>
+          <text x="182" y="126" font-family="'Rajdhani',sans-serif" font-size="8" fill="#fbbf24">76%</text>
+          <g class="oeem-wave" style="clip-path:inset(0 0 0 0)"><polyline points="115,145 125,135 135,150 145,138 155,148 165,132 175,145 185,136 195,148 205,140 215,150 225,135 235,145 245,138" stroke="#00d4ff" stroke-width="1.5" fill="none" opacity=".6" stroke-dasharray="80"/></g>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">IoT</div><div class="proj-name">Machine Performance System (OEEM)</div><div class="proj-desc">Overall Equipment Effectiveness Monitor — real-time OEE, availability, performance and vibration tracking for industrial machines.</div></div>
+    </div>
+
+    <!-- 5 Solar Cleaning Robot -->
+    <div class="proj-card reveal" data-cat="Solar">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><linearGradient id="pG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1a2a"/><stop offset="100%" stop-color="#051020"/></linearGradient><filter id="g5"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <g transform="translate(18,40) skewX(-8)">
+            <rect width="200" height="100" rx="4" fill="url(#pG)" stroke="#1a3040" stroke-width="1.5"/>
+            <line x1="50" y1="0" x2="50" y2="100" stroke="#0d2035" stroke-width="1"/><line x1="100" y1="0" x2="100" y2="100" stroke="#0d2035" stroke-width="1"/><line x1="150" y1="0" x2="150" y2="100" stroke="#0d2035" stroke-width="1"/>
+            <line x1="0" y1="33" x2="200" y2="33" stroke="#0d2035" stroke-width="1"/><line x1="0" y1="66" x2="200" y2="66" stroke="#0d2035" stroke-width="1"/>
+          </g>
+          <g class="scr-bot">
+            <rect x="88" y="55" width="60" height="30" rx="6" fill="#0a1e2e" stroke="#0d2535" stroke-width="1.5"/>
+            <g class="scr-brush" style="transform-origin:118px 88px"><rect x="106" y="82" width="24" height="10" rx="5" fill="#fbbf24" opacity=".8"/><circle cx="118" cy="87" r="3" fill="#ff6b35"/></g>
+            <rect x="93" y="60" width="20" height="5" rx="2" fill="#00d4ff" opacity=".5"/>
+            <circle cx="138" cy="65" r="4" fill="#00d4ff" filter="url(#g5)" opacity=".8"><animate attributeName="opacity" values=".8;.3;.8" dur="1s" repeatCount="indefinite"/></circle>
+            <circle cx="96" cy="84" r="5" fill="#0d2535" stroke="#2a4050" stroke-width="1"/>
+            <circle cx="140" cy="84" r="5" fill="#0d2535" stroke="#2a4050" stroke-width="1"/>
+          </g>
+          <circle class="scr-water" cx="106" cy="100" r="2" fill="#00d4ff" opacity=".6" filter="url(#g5)" style="animation-delay:0s"/>
+          <circle class="scr-water" cx="113" cy="103" r="2" fill="#00d4ff" opacity=".5" filter="url(#g5)" style="animation-delay:.3s"/>
+          <circle class="scr-water" cx="120" cy="101" r="2" fill="#00d4ff" opacity=".6" filter="url(#g5)" style="animation-delay:.6s"/>
+          <circle class="scr-sun" cx="238" cy="22" r="16" fill="#fbbf24" filter="url(#g5)" opacity=".8"/>
+          <circle cx="238" cy="22" r="10" fill="#fde68a" opacity=".9"/>
+          <rect x="10" y="148" width="80" height="18" rx="3" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="50" y="161" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#39ff14">EFFICIENCY +18%</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--amber)">Solar</div><div class="proj-name">Solar Cleaning Robot</div><div class="proj-desc">Autonomous robot traversing solar panels with rotating brush and water spray, boosting panel efficiency by up to 18%.</div></div>
+    </div>
+
+    <!-- 6 Water Pump -->
+    <div class="proj-card reveal" data-cat="IoT">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g6"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="20" y="30" width="70" height="100" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+          <rect x="24" y="34" width="62" height="92" rx="2" fill="#030c18"/>
+          <rect x="24" y="86" width="62" height="40" rx="2" fill="#00d4ff" opacity=".3"><animate attributeName="y" values="86;76;86" dur="3s" repeatCount="indefinite"/><animate attributeName="height" values="40;50;40" dur="3s" repeatCount="indefinite"/></rect>
+          <rect x="24" y="86" width="62" height="3" rx="1" fill="#00d4ff" opacity=".5"><animate attributeName="y" values="86;76;86" dur="3s" repeatCount="indefinite"/></rect>
+          <text x="55" y="120" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="9" fill="#00d4ff" opacity=".6">60%</text>
+          <text x="55" y="142" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">WATER TANK</text>
+          <rect x="90" y="100" width="50" height="10" rx="4" fill="#0a2030" stroke="#0d2535" stroke-width="1"/>
+          <circle cx="100" cy="105" r="3" fill="#00d4ff" opacity=".7"><animateMotion dur=".8s" repeatCount="indefinite" path="M0,0 L40,0"/></circle>
+          <rect x="140" y="90" width="30" height="30" rx="6" fill="#061828" stroke="#0d2535" stroke-width="1.5"/>
+          <g class="wp-motor" style="transform-origin:155px 105px"><circle cx="155" cy="105" r="10" fill="#0a1e2e" stroke="#0d2535" stroke-width="1"/><path d="M 155 96 L 162 111 L 148 111 Z" fill="#00d4ff" opacity=".6"/></g>
+          <rect x="190" y="40" width="60" height="100" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="220" y="58" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">SMART PUMP</text>
+          <circle cx="220" cy="74" r="8" fill="#061828" stroke="#39ff14" stroke-width="1.5"/>
+          <text x="220" y="78" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#39ff14">ON</text>
+          <text x="200" y="100" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">DRY-RUN: OK</text>
+          <text x="200" y="112" font-family="'Rajdhani',sans-serif" font-size="7" fill="#fbbf24">OVHEAT: OK</text>
+          <text x="200" y="124" font-family="'Rajdhani',sans-serif" font-size="7" fill="#39ff14">FLOW: HIGH</text>
+          <circle cx="238" cy="74" r="5" fill="#39ff14" filter="url(#g6)"><animate attributeName="opacity" values="1;.2;1" dur=".8s" repeatCount="indefinite"/></circle>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">IoT</div><div class="proj-name">Smart Device for Water Pumps</div><div class="proj-desc">GSM/WiFi smart pump controller with dry-run protection, overheating alerts, water level sensing, and remote ON/OFF via mobile app.</div></div>
+    </div>
+
+    <!-- 7 Robotic Arm -->
+    <div class="proj-card reveal" data-cat="Robotics">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g7"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="95" y="145" width="70" height="16" rx="4" fill="#0a2030" stroke="#0d2535" stroke-width="1.5"/>
+          <ellipse cx="130" cy="145" rx="30" ry="8" fill="#061828" stroke="#0d2535" stroke-width="1"/>
+          <circle cx="130" cy="138" r="12" fill="#0a2535" stroke="#0d2535" stroke-width="1.5"/>
+          <circle cx="130" cy="138" r="6" fill="#00d4ff" filter="url(#g7)" opacity=".7"/>
+          <g class="arm-upper">
+            <rect x="122" y="95" width="16" height="48" rx="5" fill="#0a1e2e" stroke="#0d2535" stroke-width="1.5"/>
+            <circle cx="130" cy="98" r="10" fill="#0a2535" stroke="#0d2535" stroke-width="1.5"/>
+            <circle cx="130" cy="98" r="5" fill="#ff6b35" filter="url(#g7)" opacity=".8"/>
+            <g class="arm-lower">
+              <rect x="124" y="58" width="12" height="44" rx="4" fill="#0c2030" stroke="#0d2535" stroke-width="1.5"/>
+              <circle cx="130" cy="60" r="8" fill="#0a2535" stroke="#0d2535" stroke-width="1.5"/>
+              <circle cx="130" cy="60" r="4" fill="#00d4ff" filter="url(#g7)" opacity=".8"/>
+              <g class="arm-claw-t"><rect x="130" y="38" width="36" height="10" rx="4" fill="#0a2535" stroke="#0d2535" stroke-width="1.5"/><polygon points="164,38 178,43 164,48" fill="#0c2535" stroke="#0d2535" stroke-width="1"/><circle cx="176" cy="43" r="4" fill="#00d4ff" filter="url(#g7)"><animate attributeName="opacity" values=".5;1;.5" dur=".8s" repeatCount="indefinite"/></circle></g>
+              <g class="arm-claw-b"><rect x="130" y="50" width="36" height="10" rx="4" fill="#0a2535" stroke="#0d2535" stroke-width="1.5"/><polygon points="164,50 178,55 164,60" fill="#0c2535" stroke="#0d2535" stroke-width="1"/></g>
+            </g>
+          </g>
+          <rect x="10" y="20" width="80" height="60" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="50" y="36" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">POSITION</text>
+          <text x="50" y="50" text-anchor="middle" font-family="'Orbitron',monospace" font-size="9" fill="#00d4ff">X: 142°</text>
+          <text x="50" y="63" text-anchor="middle" font-family="'Orbitron',monospace" font-size="9" fill="#ff6b35">Y: 78°</text>
+          <text x="50" y="76" text-anchor="middle" font-family="'Orbitron',monospace" font-size="9" fill="#39ff14">Z: 34°</text>
+          <rect x="175" y="50" width="20" height="20" rx="3" fill="#fbbf24" opacity=".7" filter="url(#g7)"/>
+          <text x="185" y="85" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">TARGET</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">Robotics / FYP</div><div class="proj-name">Robotic Arm</div><div class="proj-desc">6-DOF servo-driven robotic arm with computer vision-guided pick-and-place, inverse kinematics, and Arduino Mega controller.</div></div>
+    </div>
+
+    <!-- 8 RFID -->
+    <div class="proj-card reveal" data-cat="IoT">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g8"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="100" y="20" width="70" height="130" rx="2" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+          <rect x="104" y="24" width="62" height="122" rx="1" fill="#030c18"/>
+          <rect x="158" y="85" width="6" height="18" rx="3" fill="#fbbf24" opacity=".7"/>
+          <rect x="128" y="78" width="28" height="32" rx="4" fill="#061828" stroke="#0d2535" stroke-width="1.5"/>
+          <g class="rfid-lock"><path d="M 136 80 Q 136 68 142 68 Q 148 68 148 80" fill="none" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/></g>
+          <circle cx="142" cy="96" r="5" fill="#00d4ff" filter="url(#g8)"><animate attributeName="opacity" values=".4;1;.4" dur="1.5s" repeatCount="indefinite"/></circle>
+          <rect x="175" y="70" width="36" height="42" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+          <rect x="180" y="76" width="26" height="28" rx="2" fill="#020c14"/>
+          <text x="193" y="88" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">RFID</text>
+          <circle class="rfid-wave" cx="193" cy="91" r="8" fill="none" stroke="#00d4ff" stroke-width="1.5" filter="url(#g8)"/>
+          <circle class="rfid-wave2" cx="193" cy="91" r="14" fill="none" stroke="#00d4ff" stroke-width="1" filter="url(#g8)"/>
+          <circle class="rfid-wave3" cx="193" cy="91" r="20" fill="none" stroke="#00d4ff" stroke-width=".7" filter="url(#g8)"/>
+          <g class="rfid-card"><rect x="40" y="80" width="50" height="30" rx="4" fill="#0a2535" stroke="#00d4ff" stroke-width="1" opacity=".8"/><text x="65" y="93" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#00d4ff">RFID CARD</text><text x="65" y="104" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="6" fill="#3a6070">UID: A4 2F 8C</text></g>
+          <rect x="20" y="140" width="80" height="20" rx="3" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <circle cx="32" cy="150" r="5" fill="#39ff14" filter="url(#g8)"><animate attributeName="fill" values="#39ff14;#39ff14;#39ff14;#ff4444;#39ff14" dur="4s" repeatCount="indefinite"/></circle>
+          <text x="44" y="154" font-family="'Rajdhani',sans-serif" font-size="8" fill="#39ff14">ACCESS GRANTED</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">IoT / FYP</div><div class="proj-name">RFID Based Door Lock System</div><div class="proj-desc">Secure RFID RC522 door lock with LCD, buzzer, log history, master-card override, and relay-driven electric strike mechanism.</div></div>
+    </div>
+
+    <!-- 9 RC Car -->
+    <div class="proj-card reveal" data-cat="Robotics">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g9"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="0" y="120" width="260" height="50" fill="#030e18"/>
+          <line x1="0" y1="145" x2="260" y2="145" stroke="#1a3040" stroke-width="1" stroke-dasharray="20 15"/>
+          <g class="rc-body">
+            <rect x="60" y="90" width="100" height="38" rx="8" fill="#0a1e30" stroke="#0d3040" stroke-width="1.5"/>
+            <rect x="72" y="82" width="76" height="20" rx="6" fill="#061828" stroke="#0d2535" stroke-width="1.5"/>
+            <rect x="80" y="85" width="24" height="12" rx="2" fill="#020c18" stroke="#00d4ff" stroke-width=".8" opacity=".6"/>
+            <rect x="110" y="85" width="24" height="12" rx="2" fill="#020c18" stroke="#00d4ff" stroke-width=".8" opacity=".6"/>
+            <circle cx="72" cy="105" r="5" fill="#fde68a" filter="url(#g9)" opacity=".9"/>
+            <circle cx="158" cy="105" r="5" fill="#fde68a" filter="url(#g9)" opacity=".9"/>
+            <rect x="60" y="100" width="6" height="14" rx="3" fill="#ff4444" filter="url(#g9)" opacity=".8"/>
+            <line x1="150" y1="82" x2="162" y2="58" stroke="#0d3040" stroke-width="2" stroke-linecap="round"/>
+            <circle class="rc-ant" cx="162" cy="56" r="4" fill="#ff6b35" filter="url(#g9)"/>
+            <g style="transform-origin:82px 128px" class="rc-wheel"><circle cx="82" cy="128" r="12" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/><line x1="82" y1="117" x2="82" y2="139" stroke="#0d2535" stroke-width="1"/><line x1="71" y1="128" x2="93" y2="128" stroke="#0d2535" stroke-width="1"/></g>
+            <g style="transform-origin:138px 128px" class="rc-wheel"><circle cx="138" cy="128" r="12" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/><line x1="138" y1="117" x2="138" y2="139" stroke="#0d2535" stroke-width="1"/><line x1="127" y1="128" x2="149" y2="128" stroke="#0d2535" stroke-width="1"/></g>
+          </g>
+          <rect x="190" y="30" width="55" height="80" rx="6" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+          <text x="218" y="48" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">REMOTE</text>
+          <rect x="208" y="56" width="8" height="20" rx="2" fill="#0a2030"/><rect x="204" y="62" width="16" height="8" rx="2" fill="#0a2030"/>
+          <rect x="210" y="58" width="4" height="6" rx="1" fill="#00d4ff" opacity=".6"/>
+          <path class="rc-signal" d="M 200 40 Q 190 50 200 60" fill="none" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round" filter="url(#g9)"/>
+          <path class="rc-signal" d="M 196 36 Q 183 50 196 64" fill="none" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" filter="url(#g9)" style="animation-delay:.2s"/>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--orange)">Robotics</div><div class="proj-name">RC Car</div><div class="proj-desc">Custom-built radio-controlled car with L298N motor driver, 2.4GHz RF module, proportional steering, and optional FPV camera.</div></div>
+    </div>
+
+    <!-- 10 Line Follower -->
+    <div class="proj-card reveal" data-cat="Robotics">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g10"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <path d="M 20 140 Q 60 140 80 100 Q 100 60 140 60 Q 180 60 200 100 Q 220 140 240 140" fill="none" stroke="#1a3040" stroke-width="22" stroke-linecap="round"/>
+          <path d="M 20 140 Q 60 140 80 100 Q 100 60 140 60 Q 180 60 200 100 Q 220 140 240 140" fill="none" stroke="#020c14" stroke-width="14" stroke-linecap="round"/>
+          <path d="M 20 140 Q 60 140 80 100 Q 100 60 140 60 Q 180 60 200 100 Q 220 140 240 140" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".07"/>
+          <g class="lf-bot">
+            <rect x="110" y="52" width="36" height="24" rx="5" fill="#0a1e2e" stroke="#0d2535" stroke-width="1.5"/>
+            <circle class="lf-sensor" cx="118" cy="72" r="4" fill="#ff6b35" filter="url(#g10)"/>
+            <circle class="lf-sensor2" cx="134" cy="72" r="4" fill="#39ff14" filter="url(#g10)"/>
+            <circle cx="128" cy="60" r="3" fill="#00d4ff" filter="url(#g10)"><animate attributeName="opacity" values=".4;1;.4" dur=".6s" repeatCount="indefinite"/></circle>
+            <rect x="108" y="72" width="8" height="6" rx="2" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+            <rect x="140" y="72" width="8" height="6" rx="2" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          </g>
+          <rect x="8" y="10" width="90" height="50" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="53" y="24" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">PID SIGNAL</text>
+          <polyline points="14,45 24,35 34,42 44,30 54,38 64,28 74,35 84,32 94,38" stroke="#00d4ff" stroke-width="1.5" fill="none" opacity=".8"/>
+          <rect x="162" y="10" width="90" height="50" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="207" y="24" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">SPEED</text>
+          <text x="207" y="46" text-anchor="middle" font-family="'Orbitron',monospace" font-size="18" fill="#39ff14" font-weight="700">0.4m/s</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">Robotics / FYP</div><div class="proj-name">Line Following Robot</div><div class="proj-desc">PID-controlled line follower with IR sensor array, obstacle detection, Bluetooth telemetry, and real-time speed logging.</div></div>
+    </div>
+
+    <!-- 11 Basic Electronics -->
+    <div class="proj-card reveal" data-cat="Electronics">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g11"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="30" y="50" width="200" height="80" rx="4" fill="#d4c8a8" stroke="#b0a880" stroke-width="1.5"/>
+          <rect x="35" y="55" width="190" height="70" rx="2" fill="#c8bc98"/>
+          <g fill="#8a7a60" opacity=".6">
+            <circle cx="50" cy="70" r="2"/><circle cx="65" cy="70" r="2"/><circle cx="80" cy="70" r="2"/><circle cx="95" cy="70" r="2"/><circle cx="110" cy="70" r="2"/><circle cx="125" cy="70" r="2"/><circle cx="140" cy="70" r="2"/><circle cx="155" cy="70" r="2"/><circle cx="170" cy="70" r="2"/><circle cx="185" cy="70" r="2"/><circle cx="200" cy="70" r="2"/>
+            <circle cx="50" cy="85" r="2"/><circle cx="65" cy="85" r="2"/><circle cx="80" cy="85" r="2"/><circle cx="95" cy="85" r="2"/><circle cx="110" cy="85" r="2"/><circle cx="125" cy="85" r="2"/><circle cx="140" cy="85" r="2"/><circle cx="155" cy="85" r="2"/><circle cx="170" cy="85" r="2"/><circle cx="185" cy="85" r="2"/><circle cx="200" cy="85" r="2"/>
+            <circle cx="50" cy="100" r="2"/><circle cx="65" cy="100" r="2"/><circle cx="80" cy="100" r="2"/><circle cx="95" cy="100" r="2"/><circle cx="110" cy="100" r="2"/><circle cx="125" cy="100" r="2"/><circle cx="140" cy="100" r="2"/><circle cx="155" cy="100" r="2"/><circle cx="170" cy="100" r="2"/><circle cx="185" cy="100" r="2"/><circle cx="200" cy="100" r="2"/>
+            <circle cx="50" cy="115" r="2"/><circle cx="65" cy="115" r="2"/><circle cx="80" cy="115" r="2"/><circle cx="95" cy="115" r="2"/><circle cx="110" cy="115" r="2"/><circle cx="125" cy="115" r="2"/><circle cx="140" cy="115" r="2"/><circle cx="155" cy="115" r="2"/><circle cx="170" cy="115" r="2"/><circle cx="185" cy="115" r="2"/><circle cx="200" cy="115" r="2"/>
+          </g>
+          <line x1="65" y1="85" x2="95" y2="85" stroke="#cc0000" stroke-width="2"/>
+          <rect x="72" y="82" width="16" height="6" rx="2" fill="#fbbf24"/>
+          <line x1="110" y1="100" x2="110" y2="70" stroke="#cc0000" stroke-width="1.5"/>
+          <line x1="125" y1="100" x2="125" y2="70" stroke="#1a1a1a" stroke-width="1.5"/>
+          <polygon points="110,80 125,87 110,94" fill="#ff0000" opacity=".7"/>
+          <line x1="125" y1="80" x2="125" y2="94" stroke="#ff0000" stroke-width="1.5"/>
+          <circle class="elec-led1" cx="115" cy="74" r="5" fill="#ff4444" filter="url(#g11)"/>
+          <path d="M 50 70 Q 50 40 140 40 Q 200 40 200 70" fill="none" stroke="#cc0000" stroke-width="1.5"/>
+          <path d="M 65 115 Q 65 142 185 142 Q 200 142 200 115" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+          <circle class="elec-led2" cx="30" cy="35" r="5" fill="#39ff14" filter="url(#g11)"/>
+          <circle class="elec-led3" cx="46" cy="35" r="5" fill="#ff6b35" filter="url(#g11)"/>
+          <circle class="elec-led1" cx="62" cy="35" r="5" fill="#00d4ff" filter="url(#g11)" style="animation-delay:.15s"/>
+          <text x="100" y="38" font-family="'Rajdhani',sans-serif" font-size="8" fill="#3a6070">BASIC ELECTRONICS LAB</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--green)">Electronics</div><div class="proj-name">Basic Electronics Projects</div><div class="proj-desc">Hands-on kits covering LEDs, resistors, capacitors, transistors, logic gates, op-amps, and oscilloscope measurements for students.</div></div>
+    </div>
+
+    <!-- 12 DLD -->
+    <div class="proj-card reveal" data-cat="DLD">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g12"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><pattern id="lg" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0a1e28" stroke-width=".5"/></pattern></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect width="260" height="170" fill="url(#lg)"/>
+          <text x="14" y="60" font-family="'Rajdhani',sans-serif" font-size="12" fill="#00d4ff" font-weight="700">A</text>
+          <line x1="28" y1="56" x2="75" y2="56" stroke="#00d4ff" stroke-width="1.5" opacity=".6"/>
+          <circle class="dld-sig1" cx="52" cy="56" r="4" fill="#00d4ff" filter="url(#g12)"/>
+          <text x="14" y="90" font-family="'Rajdhani',sans-serif" font-size="12" fill="#39ff14" font-weight="700">B</text>
+          <line x1="28" y1="86" x2="75" y2="86" stroke="#39ff14" stroke-width="1.5" opacity=".6"/>
+          <circle class="dld-sig2" cx="52" cy="86" r="4" fill="#39ff14" filter="url(#g12)"/>
+          <path d="M 75 42 L 75 70 L 102 70 Q 120 70 120 56 Q 120 42 102 42 Z" fill="#0a1e2e" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="93" y="60" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="9" fill="#00d4ff" font-weight="700">&amp;</text>
+          <line x1="120" y1="56" x2="170" y2="56" stroke="#00d4ff" stroke-width="1.5" opacity=".5"/>
+          <path d="M 75 78 Q 80 100 75 120 L 108 120 Q 132 100 108 78 Q 96 86 75 78 Z" fill="#0a1e2e" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="97" y="103" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="9" fill="#a78bfa" font-weight="700">≥1</text>
+          <line x1="132" y1="99" x2="170" y2="99" stroke="#a78bfa" stroke-width="1.5" opacity=".5"/>
+          <circle class="dld-out" cx="152" cy="56" r="4" fill="#00d4ff" filter="url(#g12)"/>
+          <circle class="dld-out" cx="152" cy="99" r="4" fill="#a78bfa" filter="url(#g12)" style="animation-delay:.5s"/>
+          <text x="174" y="60" font-family="'Rajdhani',sans-serif" font-size="10" fill="#00d4ff" font-weight="700">A·B</text>
+          <text x="174" y="103" font-family="'Rajdhani',sans-serif" font-size="10" fill="#a78bfa" font-weight="700">A+B</text>
+          <text x="14" y="148" font-family="'Rajdhani',sans-serif" font-size="9" fill="#39ff14">CLK</text>
+          <polyline class="dld-clock" points="30,158 30,140 48,140 48,158 66,158 66,140 84,140 84,158 102,158 102,140 120,140 120,158 138,158 138,140 156,140 156,158 174,158 174,140 192,140 192,158 210,158 210,140 228,140 228,158 246,158" stroke="#39ff14" stroke-width="1.5" fill="none" opacity=".7" stroke-dasharray="60 0" filter="url(#g12)"/>
+          <rect x="195" y="30" width="55" height="80" rx="3" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="222" y="44" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">TRUTH TABLE</text>
+          <text x="205" y="56" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">A B  AND</text>
+          <text x="205" y="68" font-family="'Rajdhani',sans-serif" font-size="7" fill="#00d4ff">0 0   0</text>
+          <text x="205" y="80" font-family="'Rajdhani',sans-serif" font-size="7" fill="#00d4ff">0 1   0</text>
+          <text x="205" y="92" font-family="'Rajdhani',sans-serif" font-size="7" fill="#00d4ff">1 0   0</text>
+          <text x="205" y="104" font-family="'Rajdhani',sans-serif" font-size="7" fill="#39ff14">1 1   1</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--violet)">DLD</div><div class="proj-name">DLD Projects</div><div class="proj-desc">Digital Logic Design projects — combinational circuits, sequential logic, FSMs, 7-segment displays, FPGA programming and Proteus simulation.</div></div>
+    </div>
+
+    <!-- 13 Mask Robot -->
+    <div class="proj-card reveal" data-cat="Robotics">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g13"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="60" y="20" width="140" height="110" rx="4" fill="#030e18" stroke="#0d2535" stroke-width="1.5"/>
+          <circle cx="130" cy="60" r="24" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <circle class="mask-eye" cx="121" cy="56" r="2.5" fill="#00d4ff" filter="url(#g13)"/>
+          <circle class="mask-eye" cx="139" cy="56" r="2.5" fill="#00d4ff" filter="url(#g13)" style="animation-delay:.5s"/>
+          <rect x="112" y="64" width="36" height="18" rx="5" fill="#39ff14" opacity=".7"/>
+          <line x1="112" y1="70" x2="148" y2="70" stroke="#2acc10" stroke-width="1" opacity=".5"/>
+          <rect x="110" y="86" width="40" height="44" rx="4" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <rect class="mask-scan" x="62" y="22" width="136" height="2" rx="1" fill="#00d4ff" opacity=".6" filter="url(#g13)"/>
+          <path d="M 96 36 L 96 26 L 106 26" stroke="#39ff14" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M 164 36 L 164 26 L 154 26" stroke="#39ff14" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M 96 94 L 96 104 L 106 104" stroke="#39ff14" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M 164 94 L 164 104 L 154 104" stroke="#39ff14" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <g class="mask-ok"><rect x="90" y="108" width="80" height="18" rx="3" fill="#0a3010" stroke="#39ff14" stroke-width="1"/><text x="130" y="121" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="9" fill="#39ff14" font-weight="700">✓ MASK DETECTED</text></g>
+          <rect x="170" y="22" width="24" height="16" rx="3" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <text x="182" y="34" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#00d4ff">97%</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--cyan)">Robotics / FYP</div><div class="proj-name">Mask Checking Robot</div><div class="proj-desc">AI-powered face detection using OpenCV + Raspberry Pi camera to detect mask-wearing in real time, with buzzer alert and door access control.</div></div>
+    </div>
+
+    <!-- 14 Fire Alarm -->
+    <div class="proj-card reveal" data-cat="Electronics">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g14"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <g class="fire-flame" style="transform-origin:100px 110px">
+            <path d="M 100 145 Q 80 120 88 100 Q 94 115 100 105 Q 106 90 116 100 Q 120 80 110 70 Q 130 85 128 105 Q 136 95 132 115 Q 138 130 120 145 Z" fill="#ff6b35" opacity=".9" filter="url(#g14)"/>
+            <path d="M 100 138 Q 88 118 94 104 Q 100 115 104 108 Q 112 95 116 108 Q 120 118 108 138 Z" fill="#fbbf24" opacity=".8" filter="url(#g14)"/>
+            <path d="M 100 130 Q 94 118 100 112 Q 106 120 100 130 Z" fill="#fff" opacity=".6"/>
+          </g>
+          <circle cx="95" cy="65" r="5" fill="#3a5060" opacity=".4"><animate attributeName="cy" values="65;40;20" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;.2;0" dur="2s" repeatCount="indefinite"/></circle>
+          <rect x="165" y="30" width="55" height="70" rx="6" fill="#c0392b" stroke="#922b21" stroke-width="2"/>
+          <rect x="172" y="38" width="41" height="30" rx="3" fill="#922b21"/>
+          <circle cx="192" cy="80" r="10" fill="#a93226" stroke="#922b21" stroke-width="1.5"/>
+          <circle cx="192" cy="80" r="5" fill="#c0392b"/>
+          <circle class="fire-alarm-ring" cx="192" cy="55" r="20" fill="none" stroke="#ff4444" stroke-width="2" filter="url(#g14)"/>
+          <circle class="fire-led" cx="200" cy="38" r="5" fill="#ff4444" filter="url(#g14)"/>
+          <circle cx="50" cy="50" r="25" fill="#040e18" stroke="#0d2535" stroke-width="2"/>
+          <circle cx="50" cy="50" r="16" fill="#061828" stroke="#0d2535" stroke-width="1"/>
+          <text x="50" y="46" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">FIRE</text>
+          <text x="50" y="57" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#3a6070">SENSOR</text>
+          <line x1="75" y1="50" x2="165" y2="55" stroke="#ff4444" stroke-width="1.5" stroke-dasharray="5 3" opacity=".6"/>
+          <rect x="10" y="140" width="240" height="22" rx="3" fill="#1a0505" stroke="#ff4444" stroke-width="1"/>
+          <text x="130" y="156" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="10" fill="#ff4444" font-weight="700">⚠ FIRE DETECTED — ALERT ACTIVE</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--orange)">Electronics / FYP</div><div class="proj-name">Fire Alarm System</div><div class="proj-desc">Multi-zone fire alarm with MQ2 smoke + flame sensors, GSM SMS alert, buzzer, LED indicators, and automatic sprinkler relay trigger.</div></div>
+    </div>
+
+    <!-- 15 Vehicle Trunk Alert -->
+    <div class="proj-card reveal" data-cat="IoT">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><filter id="g15"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="0" y="125" width="260" height="45" fill="#030e18"/>
+          <line x1="0" y1="148" x2="260" y2="148" stroke="#1a3040" stroke-width="1" stroke-dasharray="20 14"/>
+          <g class="va-car">
+            <rect x="50" y="85" width="130" height="44" rx="8" fill="#0a1e30" stroke="#0d3040" stroke-width="1.5"/>
+            <rect x="64" y="73" width="100" height="22" rx="6" fill="#061828" stroke="#0d2535" stroke-width="1.5"/>
+            <rect x="72" y="76" width="36" height="14" rx="2" fill="#020c18" stroke="#00d4ff" stroke-width=".7" opacity=".6"/>
+            <rect x="114" y="76" width="36" height="14" rx="2" fill="#020c18" stroke="#00d4ff" stroke-width=".7" opacity=".6"/>
+            <circle cx="62" cy="104" r="6" fill="#fde68a" filter="url(#g15)" opacity=".8"/>
+            <rect x="178" y="97" width="5" height="14" rx="2.5" fill="#ff4444" filter="url(#g15)" opacity=".8"/>
+            <circle cx="85" cy="129" r="12" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+            <circle cx="85" cy="129" r="5" fill="#0a1e30"/>
+            <circle cx="155" cy="129" r="12" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+            <circle cx="155" cy="129" r="5" fill="#0a1e30"/>
+            <g class="va-trunk"><rect x="178" y="73" width="18" height="28" rx="3" fill="#061828" stroke="#0d3040" stroke-width="1.5"/></g>
+          </g>
+          <g class="va-alert">
+            <rect x="180" y="28" width="68" height="38" rx="4" fill="#1a0808" stroke="#ff4444" stroke-width="1.5"/>
+            <text x="214" y="46" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="9" fill="#ff4444" font-weight="700">⚠ TRUNK</text>
+            <text x="214" y="60" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="9" fill="#ff4444" font-weight="700">OPEN!</text>
+          </g>
+          <rect x="12" y="28" width="36" height="60" rx="5" fill="#040e18" stroke="#0d2535" stroke-width="1"/>
+          <rect x="17" y="34" width="26" height="42" rx="2" fill="#020c14"/>
+          <rect x="18" y="36" width="24" height="16" rx="2" fill="#1a0808" stroke="#ff4444" stroke-width=".8"/>
+          <text x="30" y="48" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="6" fill="#ff4444">ALERT!</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--orange)">IoT / FYP</div><div class="proj-name">Vehicle Trunk ON/OFF Alert System</div><div class="proj-desc">Reed switch + GSM SIM800L module detects open vehicle trunk and sends immediate SMS/call alert to driver's mobile phone.</div></div>
+    </div>
+
+    <!-- 16 Arduino Kit -->
+    <div class="proj-card reveal" data-cat="Electronics">
+      <div class="proj-anim">
+        <svg viewBox="0 0 260 170" fill="none">
+          <defs><linearGradient id="kG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a5c2e"/><stop offset="100%" stop-color="#0f3d1e"/></linearGradient><filter id="g16"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="260" height="170" fill="#020c14"/>
+          <rect x="12" y="18" width="236" height="132" rx="6" fill="#040e18" stroke="#0d2535" stroke-width="1.5"/>
+          <rect x="20" y="28" width="90" height="58" rx="4" fill="url(#kG)" stroke="#2a7a3e" stroke-width="1"/>
+          <rect x="24" y="32" width="82" height="50" rx="2" fill="#0f3d1e"/>
+          <rect x="36" y="42" width="36" height="30" rx="2" fill="#1a2830" stroke="#2a4050" stroke-width="1"/>
+          <text x="54" y="60" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#2a6040">ATmega</text>
+          <text x="54" y="70" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#2a6040">328P</text>
+          <circle class="kit-led-a" cx="84" cy="38" r="4" fill="#39ff14" filter="url(#g16)"/>
+          <circle class="kit-led-b" cx="96" cy="38" r="4" fill="#ff9f40" filter="url(#g16)"/>
+          <circle class="kit-led-c" cx="84" cy="50" r="4" fill="#ff4444" filter="url(#g16)"/>
+          <rect x="120" y="26" width="36" height="26" rx="3" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+          <text x="138" y="37" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#888">DHT22</text>
+          <text x="138" y="48" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="6" fill="#555">TEMP</text>
+          <circle class="kit-pulse1" cx="152" cy="30" r="3" fill="#00d4ff" filter="url(#g16)"/>
+          <rect x="162" y="26" width="36" height="26" rx="3" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+          <text x="180" y="37" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#888">ULTRA</text>
+          <text x="180" y="48" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="6" fill="#555">SONIC</text>
+          <circle class="kit-pulse2" cx="194" cy="30" r="3" fill="#fbbf24" filter="url(#g16)"/>
+          <rect x="204" y="26" width="36" height="26" rx="3" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+          <text x="222" y="37" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" fill="#888">SERVO</text>
+          <circle class="kit-pulse3" cx="236" cy="30" r="3" fill="#ff6b35" filter="url(#g16)"/>
+          <rect x="20" y="94" width="216" height="48" rx="3" fill="#030c18" stroke="#0d2535" stroke-width="1"/>
+          <text x="128" y="110" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="8" fill="#3a6070">KIT CONTENTS</text>
+          <text x="30" y="124" font-family="'Rajdhani',sans-serif" font-size="8" fill="#2a6040">✓ Arduino Uno  ✓ Breadboard</text>
+          <text x="30" y="136" font-family="'Rajdhani',sans-serif" font-size="8" fill="#2a6040">✓ 10x LEDs  ✓ Sensors  ✓ LCD</text>
+          <text x="128" y="152" text-anchor="middle" font-family="'Orbitron',monospace" font-size="9" fill="#00d4ff" opacity=".7">ROBOTIFY STUDENT KIT</text>
+        </svg>
+      </div>
+      <div class="proj-body"><div class="proj-cat" style="color:var(--green)">Electronics / Education</div><div class="proj-name">Students Arduino Kit</div><div class="proj-desc">Complete beginner kit with Arduino Uno, breadboard, LEDs, DHT22, ultrasonic sensor, IR sensor, servo, LCD and 20+ project tutorials.</div></div>
+    </div>
+
+  </div>
+</section>
+<div class="divider"></div>
+<section class="page-section darker" style="padding-top:60px;padding-bottom:60px;">
+  <div class="cta-strip reveal">
+    <div class="cta-strip-text"><h3>Have a Similar Project in Mind?</h3><p>Let's discuss your requirements and build something great together.</p></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="contact.html" class="btn-primary">Start a Project →</a><a href="tel:+923337085256" class="btn-secondary">📞 +92 333 708 5256</a></div>
+  </div>
+</section>
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><img src="Robotify.png" alt="Robotify"/><p>Full-spectrum engineering services across robotics, IoT, solar energy, digital design and academic project support.</p><div class="footer-tagline">Innovation · Application · Solution</div></div>
+    <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="services.html#robotics">AI Robotics</a></li><li><a href="services.html#iot">IoT Systems</a></li><li><a href="services.html#solar">Solar Energy</a></li><li><a href="services.html#fyp">Final Year Projects</a></li></ul></div>
+    <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a href="tel:+923337085256">+92 333 708 5256</a></li><li><a href="mailto:info@robotify.pk">info@robotify.pk</a></li><li><a href="#">Karachi, Pakistan</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 ROBOTIFY — ALL RIGHTS RESERVED</div><div class="footer-copy">INNOVATION · APPLICATION · SOLUTION</div></div>
+</footer>
+<script>
+const btns=document.querySelectorAll('.filter-btn');
+const cards=document.querySelectorAll('.proj-card');
+btns.forEach(btn=>{btn.addEventListener('click',function(){btns.forEach(b=>b.classList.remove('active'));this.classList.add('active');const f=this.dataset.filter;cards.forEach(c=>{c.classList.toggle('hidden',f!=='all'&&c.dataset.cat!==f);});});});
+</script>
+<script src="shared.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>
