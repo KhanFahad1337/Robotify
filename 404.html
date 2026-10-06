@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Page Not Found — Robotify</title>
+<meta name="robots" content="noindex"/>
+<meta name="theme-color" content="#020608"/>
+<link rel="icon" href="/favicon.ico" sizes="48x48"/>
+<link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500&display=swap"/>
+<link rel="stylesheet" href="/shared.css"/>
+<style>
+.err-wrap{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;position:relative;z-index:1;padding:120px 20px 60px;
+  background:radial-gradient(ellipse 55% 50% at 50% 50%,rgba(0,212,255,0.06) 0%,transparent 65%);
+}
+.err-code{
+  font-family:'Orbitron',monospace;font-size:clamp(4rem,12vw,8rem);font-weight:900;
+  line-height:1;color:var(--cyan);text-shadow:0 0 48px rgba(0,212,255,0.4);margin-bottom:16px;
+}
+.err-msg{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;letter-spacing:.18em;
+  color:var(--muted);text-transform:uppercase;margin-bottom:36px;}
+.err-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="cur"></div><div id="cur-r"></div>
+<canvas id="cvs"></canvas>
+<main id="main" class="err-wrap">
+  <div class="err-code glitch" data-text="404">404</div>
+  <p class="err-msg">Signal lost — this page does not exist</p>
+  <div class="err-btns">
+    <a href="/" class="btn-primary">Back to Home</a>
+    <a href="/services.html" class="btn-secondary">Explore Services</a>
+  </div>
+</main>
+<script src="/shared.js" defer></script>
+</body>
+</html>

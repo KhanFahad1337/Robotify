@@ -120,8 +120,10 @@ style.textContent = `
 #rb-chat-btn{
   position:fixed;bottom:28px;right:28px;z-index:8000;
   width:60px;height:60px;border-radius:50%;
-  background:var(--bg2,#040c10);border:2px solid ${BOT_COLOR};
-  box-shadow:0 0 20px rgba(0,212,255,0.35),0 4px 24px rgba(0,0,0,0.6);
+  background:linear-gradient(165deg,rgba(10,26,36,.9),rgba(3,10,16,.88));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:2px solid ${BOT_COLOR};
+  box-shadow:0 0 20px rgba(0,212,255,0.35),0 4px 24px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,.08);
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:transform .3s,box-shadow .3s;
   animation:rb-pulse 2.5s ease-in-out infinite;
@@ -140,9 +142,11 @@ style.textContent = `
 #rb-chat-box{
   position:fixed;bottom:100px;right:28px;z-index:7999;
   width:340px;max-height:520px;
-  background:#040c12;border:1px solid rgba(0,212,255,0.2);
+  background:linear-gradient(165deg,rgba(7,22,32,.93),rgba(3,10,16,.9));
+  backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.12);
   border-radius:12px;overflow:hidden;
-  box-shadow:0 24px 64px rgba(0,0,0,0.8),0 0 32px rgba(0,212,255,0.08);
+  box-shadow:0 24px 64px rgba(0,0,0,0.8),0 0 32px rgba(0,212,255,0.08),inset 0 1px 0 rgba(255,255,255,.07);
   display:flex;flex-direction:column;
   transform:scale(0.85) translateY(20px);opacity:0;pointer-events:none;
   transition:transform .3s ease,opacity .3s ease;transform-origin:bottom right;

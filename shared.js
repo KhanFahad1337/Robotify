@@ -1,5 +1,10 @@
-// ── Custom cursor
+// ── Motion preference helpers
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
+
+// ── Custom cursor (fine pointers only, respects reduced motion)
 (function(){
+  if(REDUCED_MOTION || !FINE_POINTER) return;
   const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
   if(!cur||!ring)return;
   let mx=0,my=0,rx=0,ry=0;
@@ -11,13 +16,16 @@
   });
 })();
 
-// ── Particles
+// ── Particles (skipped for reduced motion; squared-distance + link cap for speed)
 (function(){
+  if(REDUCED_MOTION) return;
   const cvs=document.getElementById('cvs');if(!cvs)return;
   const ctx=cvs.getContext('2d');
   let W,H;
   function rsz(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight;}
   rsz();window.addEventListener('resize',rsz);
+  const isSmall=window.innerWidth<768;
+  const COUNT=isSmall?36:70, LINK_DIST=88, LINK_DIST2=LINK_DIST*LINK_DIST, MAX_LINKS=3;
   const PTS=[];
   class P{
     constructor(){this.reset();}
@@ -29,23 +37,64 @@
       if(this.life<=0||this.x<0||this.x>W||this.y<0||this.y>H)this.reset();}
     draw(){const a=this.life/this.ml*.4;ctx.beginPath();ctx.arc(this.x,this.y,this.sz,0,Math.PI*2);ctx.fillStyle=`rgba(${this.c},${a})`;ctx.fill();}
   }
-  for(let i=0;i<90;i++)PTS.push(new P());
+  for(let i=0;i<COUNT;i++)PTS.push(new P());
   (function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden)return;
     ctx.clearRect(0,0,W,H);
     for(let i=0;i<PTS.length;i++){
       PTS[i].step();PTS[i].draw();
-      for(let j=i+1;j<PTS.length;j++){
-        const dx=PTS[i].x-PTS[j].x,dy=PTS[i].y-PTS[j].y,d=Math.sqrt(dx*dx+dy*dy);
-        if(d<88){ctx.beginPath();ctx.moveTo(PTS[i].x,PTS[i].y);ctx.lineTo(PTS[j].x,PTS[j].y);
-          ctx.strokeStyle=`rgba(0,212,255,${(1-d/88)*.1})`;ctx.lineWidth=.5;ctx.stroke();}
+      let links=0;
+      for(let j=i+1;j<PTS.length&&links<MAX_LINKS;j++){
+        const dx=PTS[i].x-PTS[j].x,dy=PTS[i].y-PTS[j].y,d2=dx*dx+dy*dy;
+        if(d2<LINK_DIST2){
+          links++;
+          ctx.beginPath();ctx.moveTo(PTS[i].x,PTS[i].y);ctx.lineTo(PTS[j].x,PTS[j].y);
+          ctx.strokeStyle=`rgba(0,212,255,${(1-Math.sqrt(d2)/LINK_DIST)*.1})`;ctx.lineWidth=.5;ctx.stroke();
+        }
       }
     }
-    requestAnimationFrame(loop);
   })();
+})();
+
+// ── Mobile nav toggle (keeps aria-expanded in sync)
+(function(){
+  const btn=document.querySelector('.nav-mobile-btn'),links=document.getElementById('nav-links');
+  if(!btn||!links)return;
+  btn.setAttribute('aria-expanded','false');
+  btn.addEventListener('click',()=>{
+    const open=links.classList.toggle('open');
+    btn.setAttribute('aria-expanded',String(open));
+  });
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    links.classList.remove('open');btn.setAttribute('aria-expanded','false');
+  }));
 })();
 
 // ── Scroll reveal
 (function(){
   const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.08});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%5)*.07+'s';obs.observe(el);});
+})();
+
+// Glow orbs (glass ambience)
+(function(){
+  if(document.querySelector('.glow-orb'))return;
+  document.body.insertAdjacentHTML('beforeend','<div class="glow-orb glow-a" aria-hidden="true"></div><div class="glow-orb glow-b" aria-hidden="true"></div>');
+})();
+
+// Scroll progress bar
+(function(){
+  if(document.getElementById('prog'))return;
+  document.body.insertAdjacentHTML('beforeend','<div id="prog" aria-hidden="true"></div>');
+  const bar=document.getElementById('prog');
+  let ticking=false;
+  function update(){
+    const d=document.documentElement;
+    const max=d.scrollHeight-d.clientHeight;
+    bar.style.width=(max>0?(d.scrollTop||document.body.scrollTop)/max*100:0)+'%';
+    ticking=false;
+  }
+  window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
+  update();
 })();
