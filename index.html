@@ -208,6 +208,31 @@ h1.hero-h1{
   letter-spacing:0.05em;margin-bottom:6px;}
 .why-desc{font-size:13.5px;color:var(--muted);line-height:1.7;}
 
+/* TESTIMONIALS (sample quotes — replace with real client reviews) */
+.tst-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:44px;}
+.tst-card{
+  position:relative;padding:26px 22px 22px;border-radius:14px;
+  background:linear-gradient(165deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
+  border:1px solid var(--glass-border);
+  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--glass-shadow);
+  display:flex;flex-direction:column;gap:14px;margin:0;
+  transition:transform .3s,border-color .3s;
+}
+.tst-card:hover{transform:translateY(-6px);border-color:rgba(0,212,255,0.35);}
+.tst-stars{display:flex;gap:3px;}
+.tst-quote{font-size:14.5px;line-height:1.7;color:#c3d4de;margin:0;font-style:italic;flex:1;}
+.tst-who{display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,0.07);padding-top:14px;}
+.tst-ava{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--cyan);
+  background:linear-gradient(165deg,rgba(0,212,255,0.12),rgba(0,212,255,0.04));
+  border:1.5px solid rgba(0,212,255,0.35);
+}
+.tst-name{display:block;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;color:#edf5fa;letter-spacing:0.03em;}
+.tst-role{display:block;font-size:12px;color:var(--muted);letter-spacing:0.03em;line-height:1.5;}
+
 /* CTA STRIP */
 .cta-strip{
   background:linear-gradient(135deg,rgba(0,212,255,0.06) 0%,rgba(0,153,187,0.03) 100%);
@@ -226,6 +251,7 @@ h1.hero-h1{
   .trio{justify-content:center;}
   .svc-grid{grid-template-columns:1fr 1fr;}
   .why-grid{grid-template-columns:1fr;}
+  .tst-grid{grid-template-columns:1fr 1fr;}
   .cta-strip{flex-direction:column;text-align:center;}
   .scroll-ind{left:20px;}
   #robot-svg{width:260px;height:340px;}
@@ -236,6 +262,7 @@ h1.hero-h1{
 @media(max-width:600px){
   .svc-grid{grid-template-columns:1fr;}
   .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .tst-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -421,6 +448,73 @@ h1.hero-h1{
       <div class="why-item"><div class="why-ico"><svg width="18" height="18" fill="none" stroke="var(--amber)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="why-title">Quality Guaranteed</div><div class="why-desc">Every project is tested rigorously — we only deliver when we're confident it works.</div></div></div>
       <div class="why-item"><div class="why-ico"><svg width="18" height="18" fill="none" stroke="var(--green)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="why-title">Dedicated Support</div><div class="why-desc">Post-delivery support and guidance so you're never left on your own.</div></div></div>
     </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS — SAMPLE QUOTES: replace with real client reviews before promoting -->
+<section class="page-section dark">
+  <div class="sec-eye">Testimonials</div>
+  <h2 class="sec-title">What Clients <span>Say</span></h2>
+  <p class="sec-desc">Feedback from students, homeowners, and businesses we've worked with across Pakistan.</p>
+  <div class="tst-grid">
+    <figure class="tst-card reveal">
+      <div class="tst-stars" aria-label="Rated 5 out of 5 stars">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+      </div>
+      <blockquote class="tst-quote">"Robotify turned my rough FYP idea into a working obstacle-avoiding robot in three weeks. The documentation and presentation prep made my defence a walk in the park."</blockquote>
+      <figcaption class="tst-who">
+        <span class="tst-ava" aria-hidden="true">AH</span>
+        <span><span class="tst-name">Ahmed Hassan</span><span class="tst-role">Final Year Student, NED University</span></span>
+      </figcaption>
+    </figure>
+    <figure class="tst-card reveal">
+      <div class="tst-stars" aria-label="Rated 5 out of 5 stars">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+      </div>
+      <blockquote class="tst-quote">"They installed a 5kW solar system that cut my electricity bill by 70%. Clean installation, honest pricing, and they answered every question on WhatsApp within minutes."</blockquote>
+      <figcaption class="tst-who">
+        <span class="tst-ava" aria-hidden="true">FK</span>
+        <span><span class="tst-name">Fatima Khan</span><span class="tst-role">Homeowner, DHA Karachi</span></span>
+      </figcaption>
+    </figure>
+    <figure class="tst-card reveal">
+      <div class="tst-stars" aria-label="Rated 5 out of 5 stars">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+      </div>
+      <blockquote class="tst-quote">"We needed real-time asset tracking on ESP32 with MQTT — Robotify delivered a working prototype in 10 days, and it's still running in our warehouse."</blockquote>
+      <figcaption class="tst-who">
+        <span class="tst-ava" aria-hidden="true">BA</span>
+        <span><span class="tst-name">Bilal Ahmed</span><span class="tst-role">CTO, LogiTrack — Karachi</span></span>
+      </figcaption>
+    </figure>
+    <figure class="tst-card reveal">
+      <div class="tst-stars" aria-label="Rated 5 out of 5 stars">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.26 6.6.56-5 4.42 1.5 6.5L12 16.9 5.99 19.74l1.5-6.5-5-4.42 6.6-.56z"/></svg>
+      </div>
+      <blockquote class="tst-quote">"Their computer-vision pipeline for our lab's sorting robot was accurate, well documented, and delivered exactly when promised. We'll definitely work with them again."</blockquote>
+      <figcaption class="tst-who">
+        <span class="tst-ava" aria-hidden="true">SI</span>
+        <span><span class="tst-name">Dr. Sana Iqbal</span><span class="tst-role">Assistant Professor, FAST-NUCES</span></span>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
