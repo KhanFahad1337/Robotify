@@ -71,10 +71,18 @@ const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
   }));
 })();
 
-// ── Scroll reveal
+// ── Scroll reveal (cascade staggered by position within container)
 (function(){
-  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.08});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%5)*.07+'s';obs.observe(el);});
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+  });},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>{
+    const p=el.parentElement;
+    const sibs=p?[...p.children].filter(c=>c.classList&&c.classList.contains('reveal')):[el];
+    const idx=Math.max(0,sibs.indexOf(el));
+    el.style.transitionDelay=Math.min(idx*.08,.4)+'s';
+    obs.observe(el);
+  });
 })();
 
 // Glow orbs (glass ambience)
@@ -97,4 +105,64 @@ const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
   }
   window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
   update();
+})();
+
+// ── 3D cursor tilt on cards (fine pointers only, respects reduced motion)
+(function(){
+  if(REDUCED_MOTION||!FINE_POINTER)return;
+  document.querySelectorAll('.svc-card,.proj-card,.team-card,.tst-card,.fyp-card').forEach(el=>{
+    let raf=0,mx=0,my=0,base=null;
+    function apply(){
+      raf=0;
+      if(!base)return;
+      const x=(mx-base.left)/base.width-.5, y=(my-base.top)/base.height-.5;
+      el.style.transform='perspective(900px) rotateX('+(-y*7).toFixed(2)+'deg) rotateY('+(x*7).toFixed(2)+'deg) translateY(-5px) scale(1.02)';
+    }
+    el.addEventListener('mouseenter',e=>{
+      base=el.getBoundingClientRect();
+      mx=e.clientX;my=e.clientY;
+      el.style.transition='transform .15s ease';
+      apply();
+    });
+    el.addEventListener('mousemove',e=>{
+      mx=e.clientX;my=e.clientY;
+      if(!base)base=el.getBoundingClientRect();
+      if(!raf)raf=requestAnimationFrame(apply);
+    });
+    el.addEventListener('mouseleave',()=>{
+      if(raf){cancelAnimationFrame(raf);raf=0;}
+      base=null;
+      el.style.transition='transform .45s ease';
+      el.style.transform='';
+    });
+  });
+})();
+
+// ── Kinetic hero text (scramble decode)
+(function(){
+  const el=document.getElementById('kinetic');
+  if(!el||REDUCED_MOTION)return;
+  const words=['AI ROBOTICS','SOLAR ENERGY','IOT SYSTEMS','FYP SOLUTIONS','COMPUTER VISION'];
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*<>/';
+  let wi=-1;
+  function to(target,done){
+    const len=Math.min(Math.max(target.length,el.textContent.length),24);
+    let f=0;const total=Math.min(len+6,30);
+    const iv=setInterval(()=>{
+      let out='';
+      for(let i=0;i<len;i++){
+        if(i<f-3)out+=target[i]||'';
+        else if(target[i]===' ')out+=' ';
+        else out+=chars[Math.floor(Math.random()*chars.length)];
+      }
+      el.textContent=out;
+      f++;
+      if(f>total){clearInterval(iv);el.textContent=target;done&&done();}
+    },38);
+  }
+  function cycle(){
+    wi=(wi+1)%words.length;
+    to(words[wi],()=>setTimeout(cycle,2100));
+  }
+  setTimeout(cycle,1600);
 })();

@@ -94,6 +94,39 @@
         <div class="about-ring"></div>
         <img src="Robotify.png" alt="Robotify"/>
       </div>
+      <!-- Embedded animated blueprint showpiece -->
+      <div class="bp-wrap reveal">
+        <div class="bp-label"><span class="hud-dash"></span>System Blueprint</div>
+        <svg class="bp-svg" viewBox="0 0 400 240" fill="none" aria-hidden="true">
+          <defs><pattern id="bpg" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" class="bp-grid-dot"/></pattern></defs>
+          <rect width="400" height="240" fill="url(#bpg)" opacity="0.5"/>
+          <g class="bp-ring">
+            <circle cx="30" cy="26" r="17" class="bp-ring-c"/>
+            <path d="M30 5v8M30 39v8M9 26h8M43 26h8" stroke="rgba(0,212,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+          <rect x="150" y="95" width="100" height="50" rx="6" class="bp-chip"/>
+          <path d="M170 95v-10M185 95v-10M200 95v-10M215 95v-10M230 95v-10M170 145v10M185 145v10M200 145v10M215 145v10M230 145v10M150 110h-10M150 130h-10M250 110h10M250 130h10" class="bp-pin"/>
+          <text x="200" y="125" class="bp-text" text-anchor="middle" style="font-size:12px;fill:#7ee9ff">ESP32</text>
+          <path d="M150 110 H90 V60 H44" class="bp-trace" pathLength="100" style="animation-delay:0s"/>
+          <path d="M150 130 H70 V190 H34" class="bp-trace" pathLength="100" style="animation-delay:.6s"/>
+          <path d="M250 110 H310 V52" class="bp-trace" pathLength="100" style="animation-delay:1.2s"/>
+          <path d="M250 130 H330 V198" class="bp-trace" pathLength="100" style="animation-delay:1.8s"/>
+          <path d="M200 95 V42 H258" class="bp-trace" pathLength="100" style="animation-delay:.3s"/>
+          <path d="M150 110 H90 V60 H44" class="bp-flow" pathLength="100" style="animation-delay:0s"/>
+          <path d="M250 130 H330 V198" class="bp-flow" pathLength="100" style="animation-delay:1.4s"/>
+          <path d="M200 95 V42 H258" class="bp-flow" pathLength="100" style="animation-delay:2.2s"/>
+          <circle cx="44" cy="60" r="4" class="bp-node" style="animation-delay:0s"/>
+          <circle cx="34" cy="190" r="4" class="bp-node" style="animation-delay:.5s"/>
+          <circle cx="310" cy="52" r="4" class="bp-node" style="animation-delay:1s"/>
+          <circle cx="330" cy="198" r="4" class="bp-node" style="animation-delay:1.5s"/>
+          <circle cx="258" cy="42" r="4" class="bp-node" style="animation-delay:2s"/>
+          <text x="54" y="50" class="bp-text">PWR</text>
+          <text x="14" y="212" class="bp-text">RF</text>
+          <text x="316" y="42" class="bp-text">I/O</text>
+          <text x="298" y="220" class="bp-text">SEN</text>
+          <text x="266" y="34" class="bp-text">USB</text>
+        </svg>
+      </div>
     </div>
   </div>
 </section>
