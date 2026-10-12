@@ -7,6 +7,7 @@
 
 const WA_NUM = '923337085256';
 const BOT_COLOR = '#00d4ff';
+function track(name, params){ if (typeof gtag === 'function') gtag('event', name, params || {}); }
 
 // ─── Questions flow ───
 const FLOW = {
@@ -249,9 +250,49 @@ style.textContent = `
   #rb-chat-btn{right:16px;bottom:16px;}
   .rb-fabs{right:21px;bottom:86px;}
 }
+.rb-mobar{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:7997;
+  background:rgba(2,8,12,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-top:1px solid rgba(0,212,255,.25);
+}
+#rb-chat-box.open ~ .rb-mobar{opacity:0;visibility:hidden;}
+.rb-mobar a{
+  flex:1;text-align:center;padding:16px 10px;text-decoration:none;
+  font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+}
+.rb-mobar-tel{color:#00d4ff;border-right:1px solid rgba(255,255,255,.08);}
+.rb-mobar-wa{color:#000;background:#25d366;}
+#rb-offer{
+  position:fixed;left:28px;bottom:28px;z-index:7999;max-width:300px;
+  background:linear-gradient(165deg,rgba(10,26,36,.95),rgba(3,10,16,.93));
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(0,212,255,.35);border-radius:12px;
+  padding:18px 18px 16px;opacity:0;visibility:hidden;transform:translateY(12px);
+  transition:opacity .3s,transform .3s,visibility .3s;
+  box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 24px rgba(0,212,255,.12);
+}
+#rb-offer.show{opacity:1;visibility:visible;transform:translateY(0);}
+.rb-offer-x{
+  position:absolute;top:8px;right:10px;background:none;border:none;color:#5a6a75;
+  font-size:18px;cursor:pointer;line-height:1;padding:4px;
+}
+.rb-offer-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#edf5fa;margin-bottom:6px;padding-right:16px;}
+.rb-offer-sub{font-size:12.5px;color:#8a9ba8;line-height:1.55;margin-bottom:12px;}
+.rb-offer-wa{
+  display:block;text-align:center;padding:10px 14px;background:#25d366;color:#000;text-decoration:none;
+  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+}
+@media(max-width:640px){
+  .rb-mobar{display:flex;}
+  #rb-chat-btn{bottom:84px;}
+  .rb-fabs{bottom:156px;}
+  #rb-offer{left:12px;right:12px;bottom:84px;max-width:none;}
+}
 @media(prefers-reduced-motion:reduce){
   #rb-chat-btn,.rb-notif,.rb-fab{animation:none !important;}
   .rb-fabs{transition:none;}
+  #rb-offer{transition:none;}
 }`;
 document.head.appendChild(style);
 
@@ -291,7 +332,17 @@ widget.innerHTML = `
   <a class="rb-fab rb-fab-tel" href="tel:+923337085256" aria-label="Call Robotify" title="Call +92 333 708 5256">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="#00d4ff"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
   </a>
-</div>`;
+</div>
+<div class="rb-mobar">
+  <a class="rb-mobar-tel" href="tel:+923337085256">Call Now</a>
+  <a class="rb-mobar-wa" href="https://wa.me/${WA_NUM}?text=${encodeURIComponent('Hi Robotify! I want a price quote.')}" target="_blank" rel="noopener">WhatsApp</a>
+</div>
+<aside id="rb-offer" aria-label="Power bank offer">
+  <button class="rb-offer-x" aria-label="Dismiss offer">&times;</button>
+  <div class="rb-offer-title">Load-shedding starting?</div>
+  <div class="rb-offer-sub">Get your router backup price in 2 minutes — compatibility check included.</div>
+  <a class="rb-offer-wa" href="https://wa.me/${WA_NUM}?text=${encodeURIComponent('Hi Robotify! I need router power bank price for load-shedding. My router model is ...')}" target="_blank" rel="noopener">Get Price on WhatsApp</a>
+</aside>`;
 document.body.appendChild(widget);
 
 const btn = document.getElementById('rb-chat-btn');
@@ -300,6 +351,25 @@ const msgs = document.getElementById('rb-msgs');
 let isOpen = false;
 let currentStep = 'start';
 let hasOpened = false;
+
+// ─── Offer popup (lead capture) ───
+(function(){
+  const offer = document.getElementById('rb-offer');
+  if(!offer) return;
+  const showOffer = () => {
+    let seen = false;
+    try { seen = sessionStorage.getItem('rb_offer_seen') === '1'; } catch(e){}
+    if (seen || box.classList.contains('open')) return;
+    offer.classList.add('show');
+    try { sessionStorage.setItem('rb_offer_seen', '1'); } catch(e){}
+    track('offer_shown');
+  };
+  document.addEventListener('rb:show-offer', showOffer);
+  setTimeout(showOffer, 25000);
+  document.addEventListener('mouseout', e => { if (!e.relatedTarget && e.clientY <= 4) showOffer(); });
+  offer.querySelector('.rb-offer-x').addEventListener('click', () => { offer.classList.remove('show'); track('offer_dismiss'); });
+  offer.querySelector('.rb-offer-wa').addEventListener('click', () => track('offer_click'));
+})();
 
 btn.addEventListener('click', function(){
   isOpen = !isOpen;
@@ -348,6 +418,8 @@ function showStep(key){
             window.location.href = 'mailto:info@robotify.pk?subject=Robotify Inquiry';
           } else {
             window.open(`https://wa.me/${WA_NUM}?text=${encodeURIComponent(waMsg)}`, '_blank');
+            track('whatsapp_click', { source: 'chatbot', link_text: label });
+            track('generate_lead', { method: 'chatbot' });
           }
           // Show a final message
           setTimeout(()=>{

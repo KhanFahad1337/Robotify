@@ -166,3 +166,23 @@ const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
   }
   setTimeout(cycle,1600);
 })();
+
+// ── GA4 lead events (WhatsApp / call clicks)
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('a'):null;
+  if(!a||typeof gtag!=='function')return;
+  var href=a.getAttribute('href')||'';
+  if(href.indexOf('wa.me/')>-1){
+    gtag('event','whatsapp_click',{link_text:(a.textContent||'').trim().slice(0,60),page_path:location.pathname});
+  }else if(href.indexOf('tel:')===0){
+    gtag('event','call_click',{link_text:(a.textContent||'').trim().slice(0,60),page_path:location.pathname});
+  }
+},true);
+
+// ── Ambassador referral (?ref=) for campus reps
+(function(){
+  var ref=new URLSearchParams(location.search).get('ref');
+  if(ref&&typeof gtag==='function'){
+    gtag('event','ambassador_ref',{ref_id:ref.slice(0,40),page_path:location.pathname});
+  }
+})();
