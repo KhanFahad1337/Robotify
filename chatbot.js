@@ -16,6 +16,7 @@ const FLOW = {
       { label: '🤖 AI Robotics / Automation', next: 'robotics' },
       { label: '☀️ Solar Energy', next: 'solar' },
       { label: '🎓 Final Year Project (FYP)', next: 'fyp' },
+      { label: '🔋 Power Banks (Router & Phone)', next: 'power' },
       { label: '📡 IoT / Arduino / ESP32', next: 'iot' },
       { label: '⚡ Digital Logic Design', next: 'dld' },
       { label: '📦 Other / General Inquiry', next: 'other' },
@@ -102,6 +103,16 @@ const FLOW = {
   contact_fyp:      { msg: "We've helped 50+ students ace their FYP defence! 🎓\n\nShare your university, department and deadline on WhatsApp and we'll start immediately.",  opts:[{label:'💬 Open WhatsApp',next:'__wa_fyp__'},{label:'🔙 Start Over',next:'start'}] },
   contact_iot:      { msg: "Great project idea! Our IoT team is ready.\n\nChat with us on WhatsApp with your requirements and we'll send you a quote within 2 hours 📡", opts:[{label:'💬 Open WhatsApp',next:'__wa_iot__'},{label:'🔙 Start Over',next:'start'}] },
   contact_dld:      { msg: "No problem! Our Digital Logic experts are here.\n\nSend us your assignment or circuit details on WhatsApp ⚡",                                   opts:[{label:'💬 Open WhatsApp',next:'__wa_dld__'},{label:'🔙 Start Over',next:'start'}] },
+  power: {
+    msg: "🔋 Power Banks:\n\nWhat do you need backup for?",
+    opts: [
+      { label: '📡 Router / ONT (load-shedding backup)', next: 'pb_router' },
+      { label: '📱 Phone (fast-charge power bank)', next: 'pb_phone' },
+      { label: '🔙 Go Back', next: 'start' },
+    ]
+  },
+  pb_router: { msg: "Great! Our router power banks keep Wi-Fi alive 4–6 hours through load-shedding.\n\nMessage us your router model on WhatsApp and we'll confirm compatibility and today's price! 🔌", opts:[{label:'💬 Open WhatsApp',next:'__wa_pb_router__'},{label:'🔙 Start Over',next:'start'}] },
+  pb_phone:  { msg: "We have 10,000mAh and 20,000mAh fast-charge power banks.\n\nMessage us on WhatsApp for today's price and delivery options! ⚡", opts:[{label:'💬 Open WhatsApp',next:'__wa_pb_phone__'},{label:'🔙 Start Over',next:'start'}] },
 };
 
 const WA_MSGS = {
@@ -112,6 +123,8 @@ const WA_MSGS = {
   '__wa_fyp__':      `Hi Robotify! I need help with my Final Year Project (FYP). Please guide me.`,
   '__wa_iot__':      `Hi Robotify! I need an IoT/Arduino project. Please assist me.`,
   '__wa_dld__':      `Hi Robotify! I need help with Digital Logic Design. Please assist me.`,
+  '__wa_pb_router__': `Hi Robotify! I want the price of a Router/ONT Power Bank. My router model is ...`,
+  '__wa_pb_phone__':  `Hi Robotify! I want the price of a phone power bank (10000mAh or 20000mAh). Please send today's price and delivery info.`,
 };
 
 // ─── Build widget HTML ───
