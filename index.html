@@ -246,6 +246,14 @@ h1.hero-h1{
   .bp-big{padding:18px 16px 12px;}
 }
 
+/* HOW WE BUILD (home) */
+.build-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:44px;}
+.build-card{padding:28px 24px;}
+.build-step{font-family:'Orbitron',monospace;font-size:12px;font-weight:600;color:var(--cyan);letter-spacing:0.18em;opacity:.85;}
+.build-ico{width:46px;height:46px;margin:16px 0 18px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--cyan-dim);border:1px solid rgba(0,212,255,.22);}
+.build-name{font-family:'Orbitron',monospace;font-size:15px;font-weight:600;letter-spacing:.04em;margin-bottom:10px;}
+.build-desc{font-size:13.5px;color:var(--muted);line-height:1.65;}
+
 /* CTA STRIP */
 .cta-strip{
   background:linear-gradient(135deg,rgba(0,212,255,0.06) 0%,rgba(0,153,187,0.03) 100%);
@@ -479,6 +487,53 @@ h1.hero-h1{
     <a href="services.html#fyp" class="svc-card reveal" style="--c:var(--violet)"><div class="svc-top" style="background:var(--violet)"></div><div class="svc-num">04</div><div class="svc-ico" style="border-color:rgba(167,139,250,.2)"><svg width="22" height="22" fill="none" stroke="var(--violet)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><div class="svc-name">Final Year Projects</div><div class="svc-desc">Concept to defence — hardware, software, documentation and presentation support.</div><div class="svc-arrow" style="color:var(--violet)">Explore →</div></a>
     <a href="services.html#vision" class="svc-card reveal" style="--c:var(--cyan)"><div class="svc-top"></div><div class="svc-num">05</div><div class="svc-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="svc-name">Computer Vision</div><div class="svc-desc">YOLO, OpenCV, and TensorFlow-based vision pipelines for robotics and automation.</div><div class="svc-arrow">Explore →</div></a>
     <a href="services.html#automation" class="svc-card reveal" style="--c:var(--cyan)"><div class="svc-top"></div><div class="svc-num">06</div><div class="svc-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div><div class="svc-name">Industrial Automation</div><div class="svc-desc">PLC, SCADA, and process automation for production and manufacturing lines.</div><div class="svc-arrow">Explore →</div></a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW WE BUILD -->
+<section class="page-section">
+  <div class="sec-eye">Inside the Workshop</div>
+  <h2 class="sec-title">How a Robot <span>Actually Gets Built</span></h2>
+  <p class="sec-desc">Every project — client robot, FYP, or solar system — moves through the same hands-on pipeline. No outsourcing the hard parts.</p>
+  <div class="build-grid">
+    <div class="build-card svc-card reveal">
+      <div class="build-step">01</div>
+      <div class="build-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+      <div class="build-name">Prototyping</div>
+      <div class="build-desc">Cardboard mock to final chassis — mechanical parts designed, printed, and iterated in-house.</div>
+    </div>
+    <div class="build-card svc-card reveal">
+      <div class="build-step">02</div>
+      <div class="build-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+      <div class="build-name">PCB Design</div>
+      <div class="build-desc">Schematics to fabrication-ready boards — KiCad and EasyEDA layouts built for the job.</div>
+    </div>
+    <div class="build-card svc-card reveal">
+      <div class="build-step">03</div>
+      <div class="build-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      <div class="build-name">Firmware &amp; Code</div>
+      <div class="build-desc">ESP32, Arduino and PIC code written by us — motors, sensors and control loops tuned to real hardware.</div>
+    </div>
+    <div class="build-card svc-card reveal">
+      <div class="build-step">04</div>
+      <div class="build-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="build-name">AI &amp; Computer Vision</div>
+      <div class="build-desc">TensorFlow and OpenCV models trained, compressed, and deployed on edge devices.</div>
+    </div>
+    <div class="build-card svc-card reveal">
+      <div class="build-step">05</div>
+      <div class="build-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="build-name">Simulation First</div>
+      <div class="build-desc">Proteus, Multisim and LTspice — circuits validated before a single component is soldered.</div>
+    </div>
+    <div class="build-card svc-card reveal">
+      <div class="build-step">06</div>
+      <div class="build-ico"><svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <div class="build-name">Assembly &amp; Testing</div>
+      <div class="build-desc">Wired, powered and stress-tested on the bench — nothing ships until it survives a full run.</div>
+    </div>
   </div>
 </section>
 
