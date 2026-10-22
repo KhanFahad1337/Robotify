@@ -213,7 +213,7 @@ style.textContent = `
   padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
   flex-shrink:0;
 }
-.rb-footer-txt{font-family:'Rajdhani',sans-serif;font-size:10px;color:#2a4050;letter-spacing:.08em;text-transform:uppercase;}
+.rb-footer-txt{font-family:'Rajdhani',sans-serif;font-size:10px;color:#7d8b98;letter-spacing:.08em;text-transform:uppercase;}
 .rb-wa-btn{
   display:flex;align-items:center;gap:6px;
   font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;

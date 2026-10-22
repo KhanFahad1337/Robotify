@@ -29,7 +29,7 @@
 }
 .err-code{
   font-family:'Orbitron',monospace;font-size:clamp(4rem,12vw,8rem);font-weight:900;
-  line-height:1;color:var(--cyan);text-shadow:0 0 48px rgba(0,212,255,0.4);margin-bottom:16px;
+  line-height:1;color:var(--cyan);text-shadow:0 0 48px rgba(0,212,255,0.4);margin:0 0 16px;
 }
 .err-msg{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;letter-spacing:.18em;
   color:var(--muted);text-transform:uppercase;margin-bottom:36px;}
@@ -41,7 +41,7 @@
 <div id="cur"></div><div id="cur-r"></div>
 <canvas id="cvs"></canvas>
 <main id="main" class="err-wrap">
-  <div class="err-code glitch" data-text="404">404</div>
+  <h1 class="err-code glitch" data-text="404">404</h1>
   <p class="err-msg">Signal lost — this page does not exist</p>
   <div class="err-btns">
     <a href="/" class="btn-primary">Back to Home</a>
