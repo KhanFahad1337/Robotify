@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7TGBLDD88B"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  if (location.hostname === 'robotify.pk' || location.hostname === 'www.robotify.pk') gtag('config', 'G-7TGBLDD88B');
+</script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Router Power Bank Backup Hours: How Long Will Your WiFi Last?</title>
+<meta name="description" content="mAh doesn't equal runtime. The simple Wh formula for router backup hours, worked examples for 6W-12W routers, combined ONT + router loads, and tips to stretch every charge."/>
+<meta name="theme-color" content="#020608"/>
+<link rel="canonical" href="https://robotify.pk/blog/router-backup-hours.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:site_name" content="Robotify"/>
+<meta property="og:title" content="Router Power Bank Backup Hours: The Real Math"/>
+<meta property="og:description" content="Why mAh lies about runtime, the Wh formula, and worked examples for common routers."/>
+<meta property="og:url" content="https://robotify.pk/blog/router-backup-hours.html"/>
+<meta property="og:image" content="https://robotify.pk/og-router.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Router Power Bank Backup Hours: The Real Math"/>
+<meta name="twitter:description" content="The simple formula behind router backup runtime, with worked examples."/>
+<meta name="twitter:image" content="https://robotify.pk/og-router.png"/>
+<link rel="icon" href="/favicon.ico" sizes="48x48"/>
+<link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500&display=swap"/>
+<link rel="stylesheet" href="/shared.css"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Router Power Bank Backup Hours: How Long Will Your WiFi Last?",
+  "description": "The simple Wh formula for router backup runtime, worked examples for common routers, combined ONT loads, and tips to stretch every charge.",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-26",
+  "author": {"@type": "Organization", "name": "Robotify", "url": "https://robotify.pk/"},
+  "publisher": {"@id": "https://robotify.pk/#organization"},
+  "mainEntityOfPage": "https://robotify.pk/blog/router-backup-hours.html",
+  "image": "https://robotify.pk/og-router.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Why doesn't mAh tell me how long a router power bank lasts?", "acceptedAnswer": {"@type": "Answer", "text": "mAh measures charge at the battery's internal voltage (usually 3.7V), not energy usable by your router at 9V or 12V. To compare fairly, convert to watt-hours: Wh = mAh x 3.7 / 1000. A 10000mAh bank stores about 37Wh, which is the number your router's runtime actually depends on."}},
+    {"@type": "Question", "name": "How many hours does a power bank give a typical router?", "acceptedAnswer": {"@type": "Answer", "text": "A common 10000mAh (about 37Wh) router power bank runs a 6W router for roughly 4.5 to 5 hours after conversion losses, a 10W router for about 2.5 to 3 hours, and a router plus ONT combination (about 12-18W total) for roughly 1.5 to 2.5 hours."}},
+    {"@type": "Question", "name": "Does charging my phone from the same power bank shorten router runtime?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, roughly proportionally. Every watt the phone draws is a watt not going to the router. Charging a phone while powering the router can cut remaining runtime by a third or more, so treat them as sharing one battery."}},
+    {"@type": "Question", "name": "Do backup hours drop as the battery gets older?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Rechargeable batteries lose capacity with age and charge cycles - after two to three years you may see 70-80% of the original runtime. Buying a slightly larger bank than you need gives you headroom for that natural decline."}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robotify.pk/"},
+    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://robotify.pk/blog/"},
+    {"@type": "ListItem", "position": 3, "name": "Router Power Bank Backup Hours", "item": "https://robotify.pk/blog/router-backup-hours.html"}
+  ]
+}
+</script>
+<style>
+.crumbs{position:static;height:auto;background:none;border-bottom:none;box-shadow:none;justify-content:flex-start;max-width:1280px;margin:68px auto 0;padding:16px 52px 0;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.crumbs a{color:var(--muted);text-decoration:none;transition:color .2s;}
+.crumbs a:hover{color:var(--cyan);}
+.crumbs .sep{color:rgba(0,212,255,.5);}
+.crumbs [aria-current]{color:#dcecf5;}
+@media(max-width:760px){.crumbs{padding:12px 20px 0;}}
+
+.hero-meta{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-top:14px;}
+
+.prose{max-width:780px;margin:0 auto;}
+.prose p{font-size:15px;line-height:1.85;color:var(--muted);margin:0 0 18px;}
+.prose h2{font-family:'Rajdhani',sans-serif;font-size:25px;font-weight:700;color:#edf5fa;margin:36px 0 14px;letter-spacing:.02em;}
+.prose h3{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#dcecf5;margin:26px 0 10px;}
+.prose a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;}
+.prose a:hover{color:#7fe9ff;}
+.prose ul,.prose ol{margin:0 0 18px 22px;padding:0;}
+.prose li{font-size:15px;line-height:1.8;color:var(--muted);margin-bottom:8px;}
+.prose li::marker{color:var(--cyan);}
+.prose strong{color:#dcecf5;font-weight:600;}
+.prose code{font-family:'JetBrains Mono',monospace;font-size:.9em;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:4px;padding:1px 6px;color:#8ee8ff;}
+.note{border-left:3px solid var(--cyan);background:rgba(0,212,255,.06);padding:14px 18px;border-radius:0 8px 8px 0;font-size:14.5px;line-height:1.75;color:#bfe6f5;margin:0 0 20px;}
+.tbl-wrap{overflow-x:auto;margin:0 0 22px;}
+.prose table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px;}
+.prose th{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.04em;text-align:left;color:var(--cyan);background:rgba(0,212,255,.06);border:1px solid var(--glass-border);padding:11px 14px;}
+.prose td{border:1px solid var(--glass-border);padding:11px 14px;color:#a7bdc9;line-height:1.6;}
+.prose tr td:first-child{color:#dcecf5;font-weight:600;}
+
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:820px;margin:44px auto 0;}
+.faq-item{border:1px solid var(--glass-border);border-radius:10px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015));backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);}
+.faq-item summary{cursor:pointer;list-style:none;padding:18px 48px 18px 20px;position:relative;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:.03em;color:#dcecf5;}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{content:'+';position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--cyan);font-size:20px;font-weight:400;transition:transform .25s;}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);}
+.faq-item[open]{border-color:rgba(0,212,255,0.3);}
+.faq-item p{padding:0 20px 18px;font-size:14px;color:var(--muted);line-height:1.8;margin:0;}
+
+.related{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:820px;margin:36px auto 0;}
+.related a{display:flex;flex-direction:column;gap:6px;padding:18px 16px;border-radius:10px;text-decoration:none;border:1px solid var(--glass-border);background:linear-gradient(165deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015));transition:border-color .25s,transform .25s;}
+.related a:hover{border-color:rgba(0,212,255,.35);transform:translateY(-2px);}
+.related b{font-family:'Rajdhani',sans-serif;font-size:14.5px;color:#edf5fa;}
+.related span{font-size:12.5px;color:var(--muted);line-height:1.55;}
+
+.whatsapp-btn{display:flex;align-items:center;gap:10px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.1em;padding:13px 24px;background:#25d366;color:#000;border:none;cursor:pointer;text-transform:uppercase;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);transition:all .25s;text-decoration:none;justify-content:center;}
+.whatsapp-btn:hover{background:#1fb858;box-shadow:0 0 24px rgba(37,211,102,.35);transform:translateY(-2px);}
+
+@media(max-width:760px){.related{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="cur"></div><div id="cur-r"></div>
+<canvas id="cvs"></canvas>
+
+<nav>
+  <a class="nav-logo" href="/index.html"><img src="/Robotify.png" alt="Robotify"/><span class="nav-wordmark">ROBOTIFY</span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/services.html">Services</a></li>
+    <li><a href="/projects.html">Projects</a></li>
+    <li><a href="/powerbanks.html">Power Banks</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/contact.html">Contact</a></li>
+  </ul>
+  <a href="/contact.html" class="nav-cta">Get a Quote</a>
+  <button class="nav-mobile-btn" aria-label="Menu" aria-controls="nav-links" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <a href="/index.html">Home</a><span class="sep">›</span><a href="/blog/">Blog</a><span class="sep">›</span><span aria-current="page">Backup Hours</span>
+</nav>
+
+<div class="page-hero" id="main">
+  <div class="sec-eye" style="justify-content:center">Backup Power Guide</div>
+  <h1>Router Backup <span style="color:var(--cyan)">Hours</span>, Explained</h1>
+  <div class="hero-meta">Published 26 Oct 2026 · 6 min read</div>
+</div>
+
+<div class="divider"></div>
+
+<section class="page-section dark">
+  <article class="prose">
+    <p>"How many hours will it last?" is the first question everyone asks about a router power bank — and the mAh number on the box is the worst way to answer it. Two banks rated 10000mAh can give your router wildly different runtimes. Here's the one formula that actually predicts your hours, with worked examples you can copy.</p>
+
+    <div class="note"><strong>The formula:</strong> <code>hours ≈ usable Wh × 0.85 ÷ router watts</code> — where <code>usable Wh ≈ mAh × 3.7 ÷ 1000</code> for internal cells. Everything else is detail.</div>
+
+    <h2>Step 1: find your router's watts</h2>
+    <p>Flip the router (or its adapter) over and read the label — it shows volts and amps, like <code>12V ⎓ 1A</code>. Multiply:</p>
+    <ul>
+      <li><code>12V × 0.5A = 6W</code> — typical single-band home router</li>
+      <li><code>12V × 1A = 12W</code> — common dual-band / ONT-router combos</li>
+      <li><code>9V × 0.6A ≈ 5.4W</code> — many small routers</li>
+    </ul>
+    <p>No label or faded print? See <a href="/blog/check-router-voltage.html">how to check your router's voltage</a> — it takes two minutes and you should do it before buying anything anyway.</p>
+
+    <h2>Step 2: convert mAh to watt-hours</h2>
+    <p>Battery cells inside power banks are charged at <strong>3.7V</strong>, but your router runs at 9V or 12V. mAh alone ignores that difference. Watt-hours (Wh) don't — they measure real energy. Convert with:</p>
+    <p><code>Wh = mAh × 3.7 ÷ 1000</code></p>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Advertised capacity</th><th>Real energy</th><th>Notes</th></tr>
+        <tr><td>10000mAh</td><td>≈ 37Wh</td><td>Standard router power bank size</td></tr>
+        <tr><td>20000mAh</td><td>≈ 74Wh</td><td>Long cuts, or router + ONT together</td></tr>
+        <tr><td>12V / 5000mAh rating</td><td>60Wh</td><td>Some brands rate at output voltage — read carefully</td></tr>
+      </table>
+    </div>
+    <p>If a brand rates capacity <em>at 12V</em>, you can use it directly: <code>12V × 5Ah = 60Wh</code>. Same math, different starting point. Confusing on purpose? A little — which is why Wh is the number to compare across brands.</p>
+
+    <h2>Step 3: subtract conversion losses</h2>
+    <p>Your router runs on 12V; the cells deliver 3.7V. A boost converter makes up the difference, and it wastes about <strong>10–20%</strong> of the energy as heat. Counting on ~85% of rated energy reaching the router keeps your estimate honest instead of optimistic.</p>
+
+    <h2>Worked examples</h2>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Setup</th><th>Bank</th><th>Estimated runtime</th></tr>
+        <tr><td>6W router alone</td><td>37Wh (10000mAh)</td><td>≈ 5 hours</td></tr>
+        <tr><td>12W router alone</td><td>37Wh (10000mAh)</td><td>≈ 2.5 hours</td></tr>
+        <tr><td>6W router alone</td><td>74Wh (20000mAh)</td><td>≈ 9–10 hours</td></tr>
+        <tr><td>Router (6W) + ONT (6W)</td><td>37Wh (10000mAh)</td><td>≈ 2.5 hours</td></tr>
+        <tr><td>Router (6W) + ONT (6W)</td><td>74Wh (20000mAh)</td><td>≈ 5 hours</td></tr>
+      </table>
+    </div>
+    <p>That last pair of rows is why <strong>combined load matters</strong>: if your ONT is a separate box, you're backing up two devices, not one — double the watts, half the hours. Our typical "4–6 hours" figure assumes a normal single router on a 10000mAh-class bank.</p>
+
+    <h2>What eats hours in real life</h2>
+    <ul>
+      <li><strong>Charging your phone too.</strong> Every watt a phone pulls is a watt not feeding the router — <a href="/blog/mini-ups-vs-power-bank.html">sharing one battery</a> can cost you a third of your runtime.</li>
+      <li><strong>Busy WiFi.</strong> Heavy downloads raise the router's draw slightly; idle browsing is the frugal case.</li>
+      <li><strong>Battery age.</strong> After 2–3 years, expect 70–80% of original capacity. Buying one size up protects your estimate.</li>
+      <li><strong>Heat.</strong> Karachi summers shave a little off both capacity and converter efficiency.</li>
+    </ul>
+
+    <h2>Getting more from every charge</h2>
+    <ol>
+      <li>Back up only what matters — if the ONT is the ISP's wall-mounted box, ask us whether it's compatible before adding it to the load.</li>
+      <li>Keep the phone off the bank during an outage; use mobile data if you must.</li>
+      <li>Start with a full charge <em>before</em> the typical evening cut window.</li>
+      <li>Sizing rule of thumb: <strong>37Wh for router-only, 74Wh if you run router + ONT</strong>.</li>
+    </ol>
+
+    <h2>The bottom line</h2>
+    <p>Ignore mAh at the shelf; convert to Wh, divide by your router's watts (after the ~85% haircut). A 10000mAh bank gives a typical router a full evening's cut — more than enough for most load-shedding blocks. Need the hardware? See the <a href="/router-power-bank.html">router power bank guide</a> or check compatibility on the <a href="/powerbanks.html">power banks page</a>.</p>
+  </article>
+</section>
+
+<div class="divider"></div>
+
+<section class="page-section">
+  <div class="sec-eye" style="justify-content:center">FAQ</div>
+  <h2 class="sec-title" style="text-align:center">Backup Hours, <span>Answered</span></h2>
+  <div class="faq-list">
+    <details class="faq-item reveal">
+      <summary>Why doesn't mAh tell me how long a router power bank lasts?</summary>
+      <p>mAh measures charge at the battery's internal voltage (usually 3.7V), not energy usable by your router at 9V or 12V. To compare fairly, convert to watt-hours: Wh = mAh × 3.7 ÷ 1000. A 10000mAh bank stores about 37Wh, which is the number your router's runtime actually depends on.</p>
+    </details>
+    <details class="faq-item reveal">
+      <summary>How many hours does a power bank give a typical router?</summary>
+      <p>A common 10000mAh (about 37Wh) router power bank runs a 6W router for roughly 4.5 to 5 hours after conversion losses, a 10W router for about 2.5 to 3 hours, and a router plus ONT combination (about 12–18W total) for roughly 1.5 to 2.5 hours.</p>
+    </details>
+    <details class="faq-item reveal">
+      <summary>Does charging my phone from the same power bank shorten router runtime?</summary>
+      <p>Yes, roughly proportionally. Every watt the phone draws is a watt not going to the router. Charging a phone while powering the router can cut remaining runtime by a third or more, so treat them as sharing one battery.</p>
+    </details>
+    <details class="faq-item reveal">
+      <summary>Do backup hours drop as the battery gets older?</summary>
+      <p>Yes. Rechargeable batteries lose capacity with age and charge cycles — after two to three years you may see 70–80% of the original runtime. Buying a slightly larger bank than you need gives you headroom for that natural decline.</p>
+    </details>
+  </div>
+
+  <div class="related">
+    <a href="/router-power-bank.html"><b>Router Power Bank — full guide</b><span>Prices, compatibility and real use cases.</span></a>
+    <a href="/blog/check-router-voltage.html"><b>Check your router's voltage</b><span>The label reading your purchase depends on.</span></a>
+    <a href="/blog/load-shedding-router-backup.html"><b>WiFi during load shedding</b><span>All your options, side by side.</span></a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="page-section darker" style="padding-top:60px;padding-bottom:60px;">
+  <div class="cta-strip">
+    <div class="cta-strip-text"><h3>Want a Runtime Estimate for YOUR Router?</h3><p>Send your router model on WhatsApp — we'll reply with expected hours and a price.</p></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="https://wa.me/923337085256?text=Hi Robotify! I read your backup-hours guide. My router model is " class="whatsapp-btn" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        Get My Estimate
+      </a>
+      <a href="/powerbanks.html" class="btn-primary">Browse Power Banks</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+    <div class="marquee-track"><span>ESP32</span><i></i><span>ARDUINO</span><i></i><span>RASPBERRY PI</span><i></i><span>ROS</span><i></i><span>OPENCV</span><i></i><span>TENSORFLOW LITE</span><i></i><span>MQTT</span><i></i><span>NODE-RED</span><i></i><span>SIM800L GSM</span><i></i><span>PZEM-004T</span><i></i><span>FUSION 360</span><i></i><span>LTSPICE</span><i></i><span>VERILOG</span><i></i><span>PCB DESIGN</span><i></i><span>SOLAR MPPT</span><i></i></div>
+    <div class="marquee-track"><span>ESP32</span><i></i><span>ARDUINO</span><i></i><span>RASPBERRY PI</span><i></i><span>ROS</span><i></i><span>OPENCV</span><i></i><span>TENSORFLOW LITE</span><i></i><span>MQTT</span><i></i><span>NODE-RED</span><i></i><span>SIM800L GSM</span><i></i><span>PZEM-004T</span><i></i><span>FUSION 360</span><i></i><span>LTSPICE</span><i></i><span>VERILOG</span><i></i><span>PCB DESIGN</span><i></i><span>SOLAR MPPT</span><i></i></div>
+  </div>
+  <div class="divider"></div>
+  <footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><img src="/Robotify.png" alt="Robotify"/><p>Full-spectrum engineering solutions across robotics, IoT, solar energy, digital design and academic project support.</p><div class="footer-tagline">Innovation · Application · Solution</div></div>
+    <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="/services.html#robotics">AI Robotics</a></li><li><a href="/services.html#iot">IoT Systems</a></li><li><a href="/services.html#solar">Solar Energy</a></li><li><a href="/services.html#fyp">Final Year Projects</a></li><li><a href="/services.html#logic">Digital Logic</a></li></ul></div>
+    <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a href="/index.html">Home</a></li><li><a href="/services.html">Services</a></li><li><a href="/projects.html">Projects</a></li><li><a href="/powerbanks.html">Power Banks</a></li><li><a href="/router-power-bank.html">Router Power Bank</a></li><li><a href="/solar.html">Solar Energy</a></li><li><a href="/final-year-projects.html">Final Year Projects</a></li><li><a href="/blog/">Blog</a></li><li><a href="/about.html">About</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+    <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a href="tel:+923337085256">+92 333 708 5256</a></li><li><a href="mailto:info@robotify.pk">info@robotify.pk</a></li><li><a href="https://wa.me/923337085256?text=Hi%20Robotify!" target="_blank" rel="noopener">WhatsApp Us</a></li><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Robotify+Karachi" target="_blank" rel="noopener">Karachi, Pakistan</a></li><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Robotify+Karachi" target="_blank" rel="noopener">Review us on Google</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 ROBOTIFY — ALL RIGHTS RESERVED</div><div class="footer-copy">INNOVATION · APPLICATION · SOLUTION</div></div>
+</footer>
+<script src="/shared.js" defer></script>
+<script src="/chatbot.js" defer></script>
+</body>
+</html>

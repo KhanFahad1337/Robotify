@@ -10,14 +10,29 @@ const warnings = [];
 const err = (file, msg) => errors.push(file + ': ' + msg);
 const warn = (file, msg) => warnings.push(file + ': ' + msg);
 
-const htmlFiles = fs.readdirSync(ROOT).filter(f => f.endsWith('.html'));
-const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
-
+// ---------- collect pages (recursive, skip .git) ----------
+const SKIP = new Set(['.git', '.github', 'node_modules', 'scripts', 'projects', 'marketing']);
+const htmlFiles = [];
+(function walk(dir) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (dir === ROOT && SKIP.has(e.name)) continue;
+    if (e.isDirectory()) walk(path.join(dir, e.name));
+    else if (e.name.endsWith('.html')) htmlFiles.push(path.relative(ROOT, path.join(dir, e.name)).replace(/\\/g, '/'));
+  }
+})(ROOT);
+const targets = new Set(htmlFiles);
+const read = rel => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 const stripComments = s => s.replace(/<!--[\s\S]*?-->/g, '');
 
-// ---------- collect pages ----------
 const pages = {};
 for (const f of htmlFiles) pages[f] = stripComments(read(f));
+
+// canonical URL for a page (dir indexes collapse to trailing slash)
+const canonPath = rel => {
+  if (rel === 'index.html') return '/';
+  if (rel.endsWith('/index.html')) return '/' + rel.slice(0, -'index.html'.length);
+  return '/' + rel;
+};
 
 // ---------- 1. JSON-LD must parse ----------
 for (const [f, html] of Object.entries(pages)) {
@@ -33,13 +48,12 @@ for (const [f, html] of Object.entries(pages)) {
 for (const [f, html] of Object.entries(pages)) {
   const m = html.match(/<link rel="canonical" href="([^"]+)"/);
   if (f === '404.html') { if (m) err(f, '404 must not have canonical'); continue; }
-  const want = ORIGIN + (f === 'index.html' ? '/' : '/' + f);
+  const want = ORIGIN + canonPath(f);
   if (!m) err(f, 'missing canonical');
   else if (m[1] !== want) err(f, 'canonical mismatch: ' + m[1] + ' (want ' + want + ')');
 }
 
 // ---------- 3. internal links resolve (incl. anchors) ----------
-const targets = new Set([...htmlFiles, 'index.html']);
 const anchorOf = html => {
   const ids = new Set();
   const re = /(?:id|name)="([^"]+)"/g;
@@ -47,9 +61,10 @@ const anchorOf = html => {
   return ids;
 };
 const anchorCache = {};
-const anchorsFor = f => (anchorCache[f] = anchorCache[f] || (targets.has(f) ? anchorOf(pages[f]) : null));
+const anchorsFor = rel => (anchorCache[rel] = anchorCache[rel] || (targets.has(rel) ? anchorOf(pages[rel]) : null));
 
 for (const [f, html] of Object.entries(pages)) {
+  const pageDir = path.posix.dirname(f) === '.' ? '' : path.posix.dirname(f) + '/';
   const re = /(?:href|src)="([^"]+)"/g;
   let m;
   while ((m = re.exec(html))) {
@@ -57,24 +72,26 @@ for (const [f, html] of Object.entries(pages)) {
     if (/^(https?:)?\/\//.test(u) || /^(mailto:|tel:|data:|javascript:)/.test(u)) continue;
     if (u.startsWith(ORIGIN)) u = u.slice(ORIGIN.length);
     let file = null, frag = null;
-    if (u === '/' || u === '' || u === '#') continue;
+    if (u === '' || u === '#') continue;
     if (u.startsWith('#')) { file = f; frag = u.slice(1); }
     else {
-      let p = u.split('#')[0];
-      frag = u.includes('#') ? u.split('#')[1] || null : null;
-      if (p.startsWith('/')) p = p.slice(1);
-      file = p === '' ? 'index.html' : p;
+      const hashIdx = u.indexOf('#');
+      if (hashIdx >= 0) { frag = u.slice(hashIdx + 1) || null; u = u.slice(0, hashIdx); }
+      if (u.startsWith('/')) u = u.slice(1);
+      else u = path.posix.normalize(pageDir + u);
+      if (u.startsWith('..')) { err(f, 'link escapes root: ' + m[1]); continue; }
+      file = u === '' || u === './' ? (f.endsWith('index.html') ? f : 'index.html') : u;
       if (file.endsWith('/')) file += 'index.html';
     }
-    if (file.startsWith('http')) continue;
+    if (file === null) continue;
     if (/\.(css|js|png|jpg|jpeg|svg|ico|webp|gif|pdf|txt|xml|woff2?)$/i.test(file)) {
       if (!fs.existsSync(path.join(ROOT, file))) err(f, 'missing asset: ' + file);
       continue;
     }
-    if (!targets.has(file)) { err(f, 'broken link: ' + u); continue; }
+    if (!targets.has(file)) { err(f, 'broken link: ' + m[1]); continue; }
     if (frag) {
       const ids = anchorsFor(file);
-      if (ids && !ids.has(frag)) err(f, 'missing anchor: ' + u);
+      if (ids && !ids.has(frag)) err(f, 'missing anchor: ' + m[1]);
     }
   }
 }
@@ -89,19 +106,20 @@ for (const loc of locs) {
   seen.add(loc);
   if (!loc.startsWith(ORIGIN)) { err('sitemap.xml', 'loc off-domain: ' + loc); continue; }
   const rest = loc.slice(ORIGIN.length);
-  const file = rest === '/' ? 'index.html' : rest.replace(/^\//, '');
+  let file = rest === '/' ? 'index.html' : rest.replace(/^\//, '');
+  if (file.endsWith('/')) file += 'index.html';
   if (!targets.has(file)) err('sitemap.xml', 'loc points to missing page: ' + loc);
 }
 const dates = [...sm.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(x => x[1]);
 for (const d of dates) if (!/^\d{4}-\d{2}-\d{2}$/.test(d) || isNaN(Date.parse(d))) err('sitemap.xml', 'bad lastmod: ' + d);
 for (const f of htmlFiles) {
   if (f === '404.html') continue;
-  const want = ORIGIN + (f === 'index.html' ? '/' : '/' + f);
+  const want = ORIGIN + canonPath(f);
   if (!seen.has(want)) err('sitemap.xml', 'page missing from sitemap: ' + want);
 }
-if (!/Sitemap:\s*https:\/\/robotify\.pk\/sitemap\.xml/.test(read('robots.txt'))) err('robots.txt', 'missing Sitemap reference');
-const robotsAllow = read('robots.txt');
-if (!/User-agent: \*/.test(robotsAllow)) err('robots.txt', 'missing User-agent');
+const robots = read('robots.txt');
+if (!/Sitemap:\s*https:\/\/robotify\.pk\/sitemap\.xml/.test(robots)) err('robots.txt', 'missing Sitemap reference');
+if (!/User-agent: \*/.test(robots)) err('robots.txt', 'missing User-agent');
 
 // ---------- 5. OG image files exist ----------
 for (const [f, html] of Object.entries(pages)) {
