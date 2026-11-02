@@ -79,7 +79,7 @@ nav{
   font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;
   letter-spacing:0.08em;color:var(--muted);text-decoration:none;
   text-transform:uppercase;padding:6px 14px;border-radius:4px;
-  transition:color .2s,background .2s;position:relative;
+  transition:color .2s,background .2s;position:relative;white-space:nowrap;
 }
 .nav-links a:hover,.nav-links a.active{color:var(--cyan);background:rgba(0,212,255,0.06);}
 .nav-links a.active::after{
@@ -92,9 +92,14 @@ nav{
   border:1px solid var(--cyan);color:var(--cyan);background:transparent;
   cursor:pointer;text-transform:uppercase;transition:all .25s;
   clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-  text-decoration:none;display:inline-flex;align-items:center;
+  text-decoration:none;display:inline-flex;align-items:center;white-space:nowrap;
 }
 .nav-cta:hover{background:var(--cyan);color:#000;box-shadow:0 0 28px var(--cyan-glow);}
+
+@media(max-width:1200px){
+  .nav-links{gap:2px;}
+  .nav-links a{padding:6px 10px;letter-spacing:0.04em;font-size:13px;}
+}
 
 /* Mobile nav */
 .nav-mobile-btn{display:none;background:none;border:none;cursor:pointer;padding:8px;}
@@ -238,7 +243,7 @@ body .cta-strip{
   gap:32px;flex-wrap:wrap;
 }
 body .cta-strip-text h3{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:700;margin-bottom:8px;}
-body .cta-strip-text p{color:var(--muted);font-size:15px;}
+body .cta-strip-text p{color:#7fa6b8;font-size:15px;}
 
 /* ══ CORNER BRACKETS (HUD) ══ */
 body .svc-card::before,body .why-item::before,body .val-item::before,
