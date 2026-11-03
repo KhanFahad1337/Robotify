@@ -76,7 +76,7 @@
 @media(max-width:760px){.crumbs{padding:12px 20px 0;}}
 
 /* Hero with animated controller */
-.sp-hero{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:56px 52px 72px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+.sp-hero{position:relative;z-index:1;padding:56px 52px 72px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
 .sp-hero .sec-eye{justify-content:flex-start;}
 .sp-hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,4vw,3.1rem);font-weight:900;margin:10px 0 16px;line-height:1.12;}
 .sp-hero h1 span{color:var(--cyan);}
@@ -86,7 +86,7 @@
 .sp-ghost:hover{background:rgba(0,212,255,.1);box-shadow:0 0 22px rgba(0,212,255,.2);}
 
 /* Animated controller replica */
-.sp-ctrl-wrap{display:flex;justify-content:center;}
+.sp-ctrl-wrap{display:flex;justify-content:flex-end;}
 .sp-ctrl{position:relative;width:320px;height:364px;background:linear-gradient(160deg,#161d23,#0a0e12);border:1px solid rgba(255,255,255,.14);border-radius:18px;box-shadow:0 34px 70px rgba(0,0,0,.55),0 0 70px rgba(0,212,255,.14);animation:spFloat 6s ease-in-out infinite;}
 @keyframes spFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .sp-ctrl .sw{position:absolute;top:26px;width:66px;height:40px;border-radius:7px;background:linear-gradient(180deg,#1a222a,#0b1015);border:1px solid rgba(255,255,255,.2);box-shadow:0 4px 12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.1);}
@@ -206,16 +206,15 @@
 .whatsapp-btn:hover{background:#1fb858;box-shadow:0 0 24px rgba(37,211,102,.35);transform:translateY(-2px);}
 
 @media(max-width:1080px){
-  .sp-hero{grid-template-columns:1fr;gap:44px;padding:48px 32px 60px;}
-  .sp-hero .sec-eye{justify-content:center;}
-  .sp-hero h1,.sp-hero .sp-sub{text-align:center;margin-left:auto;margin-right:auto;}
-  .sp-cta-row{justify-content:center;}
+  .sp-hero{grid-template-columns:1fr;gap:44px;padding:48px 52px 60px;}
+  .sp-ctrl-wrap{justify-content:flex-start;}
   .sp-shot{grid-template-columns:1fr;gap:44px;}
   .pb-feats{grid-template-columns:1fr 1fr;}
   .steps{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:960px){
   .page-section{padding:72px 20px;}
+  .sp-hero{padding-left:20px;padding-right:20px;}
 }
 @media(max-width:640px){
   .sp-hero{padding:40px 20px 52px;}
