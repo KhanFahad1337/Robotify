@@ -89,12 +89,19 @@
 .sp-ctrl-wrap{display:flex;justify-content:center;}
 .sp-ctrl{position:relative;width:320px;height:364px;background:linear-gradient(160deg,#161d23,#0a0e12);border:1px solid rgba(255,255,255,.14);border-radius:18px;box-shadow:0 34px 70px rgba(0,0,0,.55),0 0 70px rgba(0,212,255,.14);animation:spFloat 6s ease-in-out infinite;}
 @keyframes spFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.sp-ctrl .sw{position:absolute;top:28px;width:58px;height:36px;border-radius:6px;border:1px solid rgba(255,255,255,.25);}
-.sp-ctrl .sw.auto{left:28px;background:radial-gradient(circle at 50% 45%,#2fe08a,#0f7a45);box-shadow:0 0 18px rgba(47,224,138,.55);animation:swGlow 3s ease-in-out infinite;}
-.sp-ctrl .sw.onoff{right:28px;background:radial-gradient(circle at 50% 45%,#ff5a52,#8f1512);box-shadow:0 0 18px rgba(255,90,82,.5);}
-@keyframes swGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35)}}
-.sp-ctrl .sw-l{position:absolute;top:70px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.07em;color:#9fb4c2;text-transform:uppercase;}
-.sp-ctrl .sw-l.a{left:22px}.sp-ctrl .sw-l.o{right:32px}
+.sp-ctrl .sw{position:absolute;top:26px;width:66px;height:40px;border-radius:7px;background:linear-gradient(180deg,#1a222a,#0b1015);border:1px solid rgba(255,255,255,.2);box-shadow:0 4px 12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.1);}
+.sp-ctrl .sw.auto{left:26px;animation:swGlow 3s ease-in-out infinite;}
+.sp-ctrl .sw.onoff{right:26px;}
+@keyframes swGlow{0%,100%{box-shadow:0 4px 12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.1)}50%{box-shadow:0 4px 12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.1),0 0 16px rgba(47,224,138,.35)}}
+.sp-ctrl .sw i{position:absolute;top:4px;bottom:4px;width:calc(50% - 3.5px);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;font-style:normal;border-radius:4px;letter-spacing:.04em;}
+.sp-ctrl .sw i:first-of-type{left:4px;}
+.sp-ctrl .sw i.off{right:4px;}
+.sp-ctrl .sw.auto i:first-of-type{background:linear-gradient(180deg,#2ee08f,#0f9a58);color:#052b17;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 10px rgba(47,224,138,.5);}
+.sp-ctrl .sw.auto i.off{background:linear-gradient(180deg,#0e2a1d,#081a12);color:#3f6b55;box-shadow:inset 0 2px 4px rgba(0,0,0,.7);}
+.sp-ctrl .sw.onoff i:first-of-type{background:linear-gradient(180deg,#ff6a62,#c22a24);color:#3d0705;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 10px rgba(255,90,82,.45);}
+.sp-ctrl .sw.onoff i.off{background:linear-gradient(180deg,#2a1010,#180808);color:#7a4a48;box-shadow:inset 0 2px 4px rgba(0,0,0,.7);}
+.sp-ctrl .sw-l{position:absolute;top:72px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.07em;color:#9fb4c2;text-transform:uppercase;}
+.sp-ctrl .sw-l.a{left:20px}.sp-ctrl .sw-l.o{right:30px}
 .sp-ctrl .gear{position:absolute;left:50%;transform:translateX(-50%);top:20px;animation:gearSpin 14s linear infinite;transform-origin:center;}
 @keyframes gearSpin{to{transform:translateX(-50%) rotate(360deg)}}
 .sp-ctrl .brand{position:absolute;left:0;right:0;top:104px;text-align:center;font-family:'Rajdhani',sans-serif;}
@@ -112,8 +119,19 @@
 @keyframes ledLine{0%{background:#ffb340;box-shadow:0 0 10px #ffb340,0 0 22px rgba(255,179,64,.6)}8%{background:#ffb340;box-shadow:0 0 10px #ffb340,0 0 22px rgba(255,179,64,.6)}14%{background:#2a343b;box-shadow:none}100%{background:#2a343b;box-shadow:none}}
 @keyframes ledFull{0%{background:#2a343b;box-shadow:none}44%{background:#2a343b;box-shadow:none}48%{background:#39ff88;box-shadow:0 0 10px #39ff88,0 0 22px rgba(57,255,136,.6)}92%{background:#39ff88;box-shadow:0 0 10px #39ff88,0 0 22px rgba(57,255,136,.6)}96%{background:#2a343b;box-shadow:none}100%{background:#2a343b;box-shadow:none}}
 .sp-ctrl .badge{position:absolute;right:20px;top:176px;width:74px;height:74px;border-radius:50%;border:2px dashed rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:#e8f4fa;transform:rotate(-12deg);text-align:center;line-height:1.15;background:rgba(255,255,255,.06);}
-.sp-ctrl .water{position:absolute;left:0;right:0;bottom:0;height:66px;overflow:hidden;border-radius:0 0 18px 18px;}
-.sp-ctrl .water svg{position:absolute;bottom:0;left:0;}
+.sp-ctrl .tank{position:absolute;right:22px;top:258px;width:66px;height:88px;border-radius:8px;border:1px solid rgba(0,212,255,.35);background:rgba(0,212,255,.05);overflow:hidden;box-shadow:inset 0 0 12px rgba(0,0,0,.55);}
+.sp-ctrl .tank-fill{position:absolute;left:0;right:0;bottom:0;height:16%;background-color:#0f9fd4;color:#0f9fd4;animation:tankLvl 10s ease-in-out infinite;}
+.sp-ctrl .tank-fill svg{position:absolute;top:-5px;left:0;width:200%;height:8px;}
+.sp-ctrl .tank-fill .w1{animation:waveSlide 2.8s linear infinite;}
+.sp-ctrl .tank-fill .w2{top:-3px;height:7px;opacity:.55;animation:waveSlide 4.4s linear infinite reverse;}
+@keyframes waveSlide{to{transform:translateX(-50%)}}
+@keyframes tankLvl{
+  0%{height:16%;background-color:#0f9fd4;color:#0f9fd4}
+  44%{height:86%;background-color:#0f9fd4;color:#0f9fd4}
+  52%{height:86%;background-color:#25c97a;color:#25c97a}
+  90%{height:86%;background-color:#25c97a;color:#25c97a}
+  100%{height:16%;background-color:#0f9fd4;color:#0f9fd4}
+}
 
 /* Product photo showcase */
 .sp-shot{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;max-width:1120px;margin:44px auto 0;}
@@ -203,6 +221,7 @@
   .sp-hero{padding:40px 20px 52px;}
   .pb-feats,.steps{grid-template-columns:1fr;}
   .sp-ctrl{width:290px;height:340px;transform:scale(.95);}
+  .sp-ctrl .tank{top:254px;height:74px;}
 }
 </style>
 </head>
@@ -249,8 +268,8 @@
   </div>
   <div class="sp-ctrl-wrap">
     <div class="sp-ctrl" role="img" aria-label="Animated Smart Pump controller with status LEDs">
-      <div class="sw auto"></div><div class="sw-l a">Auto / Manual</div>
-      <div class="sw onoff"></div><div class="sw-l o">On / Off</div>
+      <div class="sw auto"><i>A</i><i class="off">M</i></div><div class="sw-l a">Auto / Manual</div>
+      <div class="sw onoff"><i>I</i><i class="off">O</i></div><div class="sw-l o">On / Off</div>
       <div class="gear"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e8f4fa" stroke-width="1.4"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
       <div class="brand"><div class="n">SMART PUMP</div><div class="s">IT'S ALL ABOUT WATER</div></div>
       <div class="leds">
@@ -261,7 +280,10 @@
         <div class="led-row"><span class="dot on"></span>Auto/Manual</div>
       </div>
       <div class="badge">1 YEAR<br>WARRANTY</div>
-      <div class="water"><svg width="320" height="66" viewBox="0 0 320 66" preserveAspectRatio="none"><path d="M0 27 Q 40 14 80 27 T 160 27 T 240 27 T 320 27 V 66 H 0 Z" fill="rgba(0,212,255,.35)"><animateTransform attributeName="transform" type="translate" values="0 0; -80 0; 0 0" dur="4s" repeatCount="indefinite"/></path><path d="M0 40 Q 40 27 80 40 T 160 40 T 240 40 T 320 40 V 66 H 0 Z" fill="rgba(0,212,255,.5)"><animateTransform attributeName="transform" type="translate" values="0 0; 80 0; 0 0" dur="5.5s" repeatCount="indefinite"/></path></svg></div>
+      <div class="tank" aria-hidden="true"><div class="tank-fill">
+        <svg class="w1" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0 6 Q15 0 30 6 T60 6 T90 6 T120 6 V12 H0 Z" fill="currentColor"/></svg>
+        <svg class="w2" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0 6 Q15 1 30 6 T60 6 T90 6 T120 6 V12 H0 Z" fill="currentColor"/></svg>
+      </div></div>
     </div>
   </div>
 </section>
