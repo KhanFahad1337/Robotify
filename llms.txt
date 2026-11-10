@@ -1,0 +1,31 @@
+# Robotify
+
+> Robotify is a robotics and IoT company in Karachi, Pakistan. We build router power banks and mini UPS systems that keep WiFi running through load-shedding, install solar systems, make smart water pump controllers, and develop custom electronics and final-year projects for students.
+
+All prices are shared on WhatsApp (+92 333 708 5256) - there is no online checkout. We deliver across Pakistan, with same-day dispatch in Karachi.
+
+## Guides
+
+- [How to Check Your Router Voltage](https://robotify.pk/blog/check-router-voltage.html): find whether your router needs 12V, 9V or 5V and how many amps before buying a power bank
+- [Mini UPS vs Power Bank vs UPS](https://robotify.pk/blog/mini-ups-vs-power-bank.html): side-by-side comparison and which backup option a router actually needs
+- [Router Backup Runtime Hours](https://robotify.pk/blog/router-backup-hours.html): Wh formula for computing how long a power bank runs a 6W-12W router
+- [WiFi During Load-Shedding](https://robotify.pk/blog/load-shedding-router-backup.html): every realistic way to keep internet alive during power cuts
+
+## Products
+
+- [Router Power Banks](https://robotify.pk/router-power-bank.html): DC power banks that keep routers and ONTs running for hours
+- [Power Banks](https://robotify.pk/powerbanks.html): router and phone power bank prices in Karachi
+- [Solar Systems](https://robotify.pk/solar.html): solar panels, inverters and batteries for homes and shops
+- [Smart Pump Controller](https://robotify.pk/smart-pump.html): automatic water pump controller with tank-level sensing and protection
+
+## Services and Projects
+
+- [Services](https://robotify.pk/services.html): IoT development, robotics, embedded systems and automation
+- [Projects Portfolio](https://robotify.pk/projects.html): 16 completed robotics and IoT projects with demos
+- [Final Year Projects](https://robotify.pk/final-year-projects.html): FYP ideas, kits and build support for engineering students
+- [About Robotify](https://robotify.pk/about.html): who we are, experience and capabilities
+
+## Contact
+
+- [Contact Page](https://robotify.pk/contact.html): WhatsApp +92 333 708 5256, email, and Karachi address
+- [Blog Index](https://robotify.pk/blog/): all guides and articles
